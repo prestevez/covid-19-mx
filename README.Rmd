@@ -1,7 +1,7 @@
 ---
 title: "Evolución Covid-19 en México"
 author: "Patricio R Estevez-Soto"
-date: "15/03/2020"
+date: "`r Sys.Date()`"
 output: md_document
 ---
 
