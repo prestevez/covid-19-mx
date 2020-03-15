@@ -54,7 +54,7 @@ modelo <- paste0("Predicción casos = exp(",
                  round(m1[[1]][2], 2),
                  " x día)")
 
-hoy <- Sys.Date()
+hoy <- max_date - 1
 
 pg <- "https://www.gob.mx/salud/documentos/informacion-internacional-y-nacional-sobre-nuevo-coronavirus-2019-ncov"
 
@@ -68,7 +68,7 @@ casos_with_predictions %>%
        caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
   theme(legend.title = element_blank()) -> p1
 
-ggsave("casos.png", p1, width = 5, height = 4)
+ggsave("casos.png", p1, width = 7, height = 5)
 ```
 
 ```

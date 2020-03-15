@@ -44,7 +44,7 @@ modelo <- paste0("Predicción casos = exp(",
                  round(m1[[1]][2], 2),
                  " x día)")
 
-hoy <- Sys.Date()
+hoy <- max_date - 1
 
 pg <- "https://www.gob.mx/salud/documentos/informacion-internacional-y-nacional-sobre-nuevo-coronavirus-2019-ncov"
 
