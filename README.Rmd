@@ -82,9 +82,9 @@ Por tanto, considerando las limitaciones de los datos, los resultados del modelo
 
 # Precisión predictiva
 
-El modelo se actualiza cada día conforme se publican los datos de casos confirmados. En esta sección se presenta la diferencia entre el número de casos observados hoy contra el número de casos que se predijieron el día anterior.
+El modelo se actualiza cada día conforme se publican los datos de casos confirmados. En esta sección se presenta la diferencia entre el número de casos observados hoy contra el número de casos que se esperaban hoy según el modelo del día anterior.
 
-```{r accuracy}
+```{r accuracy, message=FALSE}
 
 casos %>%
   filter(!t == (max_t-1)) %>%

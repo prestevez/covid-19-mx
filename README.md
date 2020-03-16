@@ -121,7 +121,7 @@ Por tanto, considerando las limitaciones de los datos, los resultados del modelo
 
 # Precisión predictiva
 
-El modelo se actualiza cada día conforme se publican los datos de casos confirmados. En esta sección se presenta la diferencia entre el número de casos observados hoy contra el número de casos que se predijieron el día anterior.
+El modelo se actualiza cada día conforme se publican los datos de casos confirmados. En esta sección se presenta la diferencia entre el número de casos observados hoy contra el número de casos que se esperaban hoy según el modelo del día anterior.
 
 
 ```r
@@ -142,16 +142,6 @@ casos %>%
 
 read_csv("predicciones.csv") %>%
   knitr::kable(., digits = 2)
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   Fecha = col_date(format = ""),
-##   Observados = col_double(),
-##   Predicción = col_double(),
-##   Error = col_double()
-## )
 ```
 
 
