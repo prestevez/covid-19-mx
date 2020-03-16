@@ -18,7 +18,8 @@ casos <- read_csv("confirmados.csv")
 casos$t <- (nrow(casos)-1):0
 
 casos %>%
-  filter(casos > 0) -> casos
+  filter(casos > 0) %>%
+  arrange(date) -> casos
 
 m1 <- glm(casos ~ t, 
           data = casos,
@@ -27,6 +28,9 @@ m1 <- glm(casos ~ t,
 max_date <- max(casos$date) + 1
 max_t <- max(casos$t) + 1
 
+modelo <- paste0("Tendencia exponencial (",
+                 round((exp(m1[[1]][2])-1)*100),
+                 "% más casos x día)")
 tibble(
   date = seq(max_date,max_date+2, 1),
   casos = NA,
@@ -37,12 +41,6 @@ tibble(
     mutate(casos,
       predicted = predict(m1, type = "response"))) %>%
   arrange(date) -> casos_with_predictions
-
-modelo <- paste0("Predicción casos = exp(",
-                 round(m1[[1]][1], 2),
-                 " + ",
-                 round(m1[[1]][2], 2),
-                 " x día)")
 
 hoy <- max_date - 1
 
