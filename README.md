@@ -1,7 +1,7 @@
 ---
 title: "Evolución Covid-19 en México"
 author: "Patricio R Estevez-Soto"
-date: "2020-03-15"
+date: "2020-03-16"
 output: md_document
 ---
 
@@ -33,7 +33,13 @@ casos %>%
 m1 <- glm(casos ~ t, 
           data = casos,
           family = gaussian("log"))
+```
 
+```
+## Warning: glm.fit: algorithm did not converge
+```
+
+```r
 max_date <- max(casos$date) + 1
 max_t <- max(casos$t) + 1
 
@@ -98,23 +104,23 @@ summary(m1)
 ## glm(formula = casos ~ t, family = gaussian("log"), data = casos)
 ## 
 ## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -4.4346  -0.4497   3.1262   3.6021   4.4694  
+##    Min      1Q  Median      3Q     Max  
+## -5.889  -1.017   1.067   2.800  52.411  
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept) -1.61580    0.65191  -2.479   0.0265 *  
-## t            0.32735    0.04348   7.529 2.76e-06 ***
+##             Estimate Std. Error t value Pr(>|t|)  
+## (Intercept)  -0.5297     2.0266  -0.261   0.7974  
+## t             0.2374     0.1310   1.812   0.0901 .
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 12.35506)
+## (Dispersion parameter for gaussian family taken to be 221.0455)
 ## 
-##     Null deviance: 1504.94  on 15  degrees of freedom
-## Residual deviance:  172.95  on 14  degrees of freedom
-## AIC: 89.493
+##     Null deviance: 3250.2  on 16  degrees of freedom
+## Residual deviance: 2959.4  on 15  degrees of freedom
+## AIC: 141.96
 ## 
-## Number of Fisher Scoring iterations: 14
+## Number of Fisher Scoring iterations: 25
 ```
 
 La gráfica presenta una extrapolación de la línea de tendencia indicando cuantos casos habría en tres días *asumiendo que la tendencia se mantiene*. Sin embargo, es importante notar que los datos tienen un gran sesgo de medición, pues representan solamente los casos detectados---los cuales variarán en función de la cantidad de pruebas realizadas y verificadas por la autoridad sanitaria. Por tanto, *es posible que el modelo predictivo contenga errores importantes y que los casos detectados sean menores (o mayores) a los esperados*.

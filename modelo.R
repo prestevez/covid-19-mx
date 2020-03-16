@@ -43,12 +43,78 @@ casos_with_predictions %>%
   ggplot(aes(date, casos)) + 
   geom_point() +
   theme_fivethirtyeight() +
-  geom_line(aes(y = predicted, colour = modelo)) +
+  geom_line(aes(y = predicted, colour = "GLM")) +
   xlab("Total de casos") + 
   labs(title = "México: Casos confirmados de Covid-19",
        caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
-  theme(legend.title = element_blank()) -> p1
+  theme(legend.title = element_blank())
 
-ggsave("casos.png", p1)
+### Jackknife estimate?
+
+lapply(1:nrow(casos), function(x){
+  glm(casos ~ t, 
+      data = casos[-x,],
+      family = gaussian("log"))
+}) -> m1_jk_ls
+
+sapply(m1_jk_ls, function(x) coef(x)) %>% data.frame() %>%
+  mutate(var = rownames(.)) %>%
+  pivot_longer(-var, names_to = "rep") %>%
+  group_by(var) %>%
+  summarise(Estimate = mean(value),
+            ci_low = quantile(value, 0.025),
+            ci_high = quantile(value, 0.975)) -> m1_jk
+
+pred_jk <- function(model, t, type = c("Estimate", "ci_low", "ci_high")){
+  terms <- unlist(model[,type[1]])
+  preds <- exp(terms[1] + (terms[2] * t))
+  return(preds)
+}
+
+
+casos_with_predictions %>%
+  mutate(Jackknife = pred_jk(m1_jk, t = t),
+         Jackknife_low = pred_jk(m1_jk, t = t, "ci_low"),
+         Jackknife_high = pred_jk(m1_jk, t = t, "ci_high")) %>%
+  ggplot(aes(date, casos)) + 
+  geom_point() +
+  theme_fivethirtyeight() +
+  geom_line(aes(y = predicted, linetype = "GLM"), colour = "red") +
+  geom_line(aes(y = Jackknife, linetype = "Jackknife"), colour = "red") +
+  geom_errorbar(aes(ymin = Jackknife_low,
+                    ymax = Jackknife_high,
+                    linetype = "Jackknife"),
+                colour = "red") + 
+  xlab("Total de casos") + 
+  labs(title = "México: Casos confirmados de Covid-19",
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
+  theme(legend.title = element_blank())
+
+### MCMC does not appear to offer any benefits
+install.packages("MCMCpack")
+
+library(MCMCpack)
+ls(package:MCMCpack)
+
+m1_lm <- lm(log(casos) ~ t, data = casos)
+
+summary(m1_lm)
+
+casos_with_predictions %>%
+  mutate(predlm = exp(predict(m1_lm, newdata = data.frame(t = t)))) %>%
+  ggplot(aes(date, casos)) + 
+  geom_point() +
+  theme_fivethirtyeight() +
+  geom_line(aes(y = predicted, colour = "GLM")) +
+  geom_line(aes(y = predlm, colour = "LM")) +
+  xlab("Total de casos") + 
+  labs(title = "México: Casos confirmados de Covid-19",
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
+  theme(legend.title = element_blank())
+
+
+m1_mcmc <- MCMCregress(log(casos) ~ t, data = casos)
+
+summary(m1_mcmc)
 
 
