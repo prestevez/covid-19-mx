@@ -91,30 +91,29 @@ casos_with_predictions %>%
   theme(legend.title = element_blank())
 
 ### MCMC does not appear to offer any benefits
-install.packages("MCMCpack")
-
-library(MCMCpack)
-ls(package:MCMCpack)
-
-m1_lm <- lm(log(casos) ~ t, data = casos)
-
-summary(m1_lm)
-
-casos_with_predictions %>%
-  mutate(predlm = exp(predict(m1_lm, newdata = data.frame(t = t)))) %>%
-  ggplot(aes(date, casos)) + 
-  geom_point() +
-  theme_fivethirtyeight() +
-  geom_line(aes(y = predicted, colour = "GLM")) +
-  geom_line(aes(y = predlm, colour = "LM")) +
-  xlab("Total de casos") + 
-  labs(title = "México: Casos confirmados de Covid-19",
-       caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
-  theme(legend.title = element_blank())
-
-
-m1_mcmc <- MCMCregress(log(casos) ~ t, data = casos)
-
-summary(m1_mcmc)
-
+# install.packages("MCMCpack")
+# 
+# library(MCMCpack)
+# ls(package:MCMCpack)
+# 
+# m1_lm <- lm(log(casos) ~ t, data = casos)
+# 
+# summary(m1_lm)
+# 
+# casos_with_predictions %>%
+#   mutate(predlm = exp(predict(m1_lm, newdata = data.frame(t = t)))) %>%
+#   ggplot(aes(date, casos)) + 
+#   geom_point() +
+#   theme_fivethirtyeight() +
+#   geom_line(aes(y = predicted, colour = "GLM")) +
+#   geom_line(aes(y = predlm, colour = "LM")) +
+#   xlab("Total de casos") + 
+#   labs(title = "México: Casos confirmados de Covid-19",
+#        caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
+#   theme(legend.title = element_blank())
+# 
+# 
+# m1_mcmc <- MCMCregress(log(casos) ~ t, data = casos)
+# 
+# summary(m1_mcmc)
 
