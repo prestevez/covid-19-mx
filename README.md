@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 10:54:51 GMT
+2020-03-17 10:58:52 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -78,9 +78,9 @@ El uso de modelos exponenciales para predecir el número de casos
 confirmados de Covid-19 es consistente con ejercicios [realizados en
 otros países](https://doi.org/10.1016/S0140-6736\(20\)30627-9).
 
-La tendencia exponencial del modelo sugiere que el número de casos
-confirmados se duplica cada 1.39 días. Este ritmo es más rápido que [el
-observado a nivel
+La tendencia exponencial del modelo sugiere que **el número de casos
+confirmados se duplica cada 1.39 días**. Este ritmo es más rápido que
+[el observado a nivel
 global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
 pero es consistente con los ritmos de crecimiento observados durante las
 primeras semanas de la epidemia en otros países.

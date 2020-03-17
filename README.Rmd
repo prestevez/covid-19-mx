@@ -118,7 +118,7 @@ Mañana se esperan **`r round(filter(casos_with_predictions, t == max_t)$predict
 
 El uso de modelos exponenciales para predecir el número de casos confirmados de Covid-19 es consistente con ejercicios [realizados en otros países](https://doi.org/10.1016/S0140-6736(20)30627-9).
 
-La tendencia exponencial del modelo sugiere que el número de casos confirmados se duplica cada `r round(2/exp(coef(m1)[2]), 2)` días. Este ritmo es más rápido que [el observado a nivel global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double), pero es consistente con los ritmos de crecimiento observados durante las primeras semanas de la epidemia en otros países.
+La tendencia exponencial del modelo sugiere que **el número de casos confirmados se duplica cada `r round(2/exp(coef(m1)[2]), 2)` días**. Este ritmo es más rápido que [el observado a nivel global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double), pero es consistente con los ritmos de crecimiento observados durante las primeras semanas de la epidemia en otros países.
 
 Cabe recalcar que el ritmo de aumento en los casos confirmados **no es equivalente al ritmo de crecimiento de casos totales** de Covid-19, pues como se mencionó, los casos confirmados dependen tanto del incremento en casos totales como de la cantidad de pruebas realizadas. Es probable que conforme aumente la cantidad de pruebas realizadas, el ritmo de crecimiento de los casos confirmados se haga más lento.
 
