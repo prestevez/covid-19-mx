@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
-Patricio R Estevez-Soto
-Actualizado: 2020-03-17 11:56:32 GMT
+[Patricio R Estevez-Soto](https://twitter.com/prestevez).
+Actualizado: 2020-03-17 12:00:00 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
