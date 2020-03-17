@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 09:11:02 GMT
+2020-03-17 09:21:02 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -19,7 +19,7 @@ E[casos | dia] = e^{\beta0 + \beta \times dia}
 \]
 
 La gráfica presenta una extrapolación de la línea de tendencia indicando
-cuantos casos habría en **tres días asumiendo que la tendencia se
+**cuantos casos habría en tres días asumiendo que la tendencia se
 mantiene**. Sin embargo, es importante notar que **los datos tienen un
 gran sesgo de medición**, pues representan solamente los casos
 detectados—los cuales variarán en función de la cantidad de pruebas
@@ -27,8 +27,8 @@ realizadas y verificadas por la autoridad sanitaria. Por tanto, **es
 posible que el modelo predictivo contenga errores importantes y que los
 casos detectados sean menores (o mayores) a los esperados**.
 
-Por tanto, considerando las limitaciones de los datos, **los resultados
-del modelo no deben de considerarse como predicciones robustas**. Son
+Por tanto, considerando las limitaciones de los datos, los resultados
+del modelo **no deben de considerarse como predicciones robustas**. Son
 aproximaciones extremadamente ingenuas para dar una idea general de cómo
 podría evolucionar el fenómeno con base en los datos existentes.
 
@@ -82,3 +82,13 @@ encontrarse en Ramuzzi y Ramuzzi (2020).
 Remuzzi, A. y Remuzzi, G. (2020) ‘COVID-19 and Italy: what next?’ *The
 Lancet* \[online\] doi:
 [10.1016/S0140-6736(20)30627-9](https://doi.org/10.1016/S0140-6736\(20\)30627-9)
+
+# Reproducir
+
+Para reproducir este análisis usando [R](https://cran.r-project.org/),
+clona o descarga el repositorio y corre:
+
+``` r
+# requiere {rmarkdown}, {tidyverse} y {ggthemes}
+rmarkdown::render("README.Rmd")
+```
