@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 10:47:00 GMT
+2020-03-17 10:53:56 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -66,15 +66,16 @@ según el modelo del día anterior.
 | :--------- | ---------: | ---------: | ----: |
 | 2020-03-15 |         53 |      51.89 |  1.11 |
 | 2020-03-16 |         82 |      73.72 |  8.28 |
+| 2020-03-16 |         82 |      73.72 |  8.28 |
 
 # Casos esperados mañana
 
 Mañana se esperan **116** casos confirmados de Covid-19 si la tendencia
-observada hasta hoy se mantiente igual.
+observada hasta hoy se mantiene igual.
 
 # Discusión
 
-El uso de modelos exponenciales para predecir el númer de casos
+El uso de modelos exponenciales para predecir el número de casos
 confirmados de Covid-19 es consistente con ejercicios [realizados en
 otros países](https://doi.org/10.1016/S0140-6736\(20\)30627-9).
 
@@ -105,8 +106,17 @@ cuarentenas a ciudades y regiones, y especialmente el distanciamiento
 social, han demostrado ser efectivas para alentar el ritmo de
 crecimiento de la epidemia.
 
-**En la medida que dichas medidas se adpoten con vigor en México, se
-esperaría que el crecimiento de la pandemia en el paíse se alente.**
+**En la medida que dichas medidas se adopten con vigor en México, se
+esperaría que el crecimiento de casos confirmados de Covid-19 en el país
+sea más lento.**
+
+# Aclaración
+
+El modelo presentado es **un modelo estadístico básico** que no
+considera otros supuestos epidemiológicos o médicos que podrían ser
+relevantes para predecir con mayor precisión cómo evolucionará la
+epidemia de Covid-19 en el país. La información es de carácter
+informativo solamente.
 
 # Reproducir
 
