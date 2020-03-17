@@ -7,7 +7,7 @@ output: md_document
 
 # Evolución de casos confirmados de Covid-19 en México
 
-```{r modelo, echo=TRUE, cache=FALSE, include=TRUE}
+```{r modelo, echo=FALSE, cache=FALSE, include=TRUE, message=FALSE, warning=FALSE}
 
 library(tidyverse)
 library(ggthemes)
@@ -60,7 +60,6 @@ ggsave("casos.png", p1, width = 7, height = 5)
 
 ```
 
-
 ![](casos.png)
 
 Gráfica con evolución de casos confirmados de Covid-19 en México. Datos originales tomados de la página de la [Secretaría de Salud](https://www.gob.mx/salud/documentos/informacion-internacional-y-nacional-sobre-nuevo-coronavirus-2019-ncov). 
@@ -69,22 +68,21 @@ La gráfica muestra también una linea de tendencia calculada con un modelo no l
 $$
 E[casos | dia] = e^{\beta0 + \beta \times dia}
 $$
-
-Resultados del modelo:
-
-```{r modelo-glm, include=TRUE, cache=FALSE}
-summary(m1)
-```
-
 La gráfica presenta una extrapolación de la línea de tendencia indicando cuantos casos habría en tres días *asumiendo que la tendencia se mantiene*. Sin embargo, es importante notar que los datos tienen un gran sesgo de medición, pues representan solamente los casos detectados---los cuales variarán en función de la cantidad de pruebas realizadas y verificadas por la autoridad sanitaria. Por tanto, *es posible que el modelo predictivo contenga errores importantes y que los casos detectados sean menores (o mayores) a los esperados*.
 
 Por tanto, considerando las limitaciones de los datos, los resultados del modelo no deben de considerarse como predicciones robustas. Son aproximaciones extremadamente simples para dar una idea genera de cómo podría evolucionar el fenómeno con base en los datos existentes.
+
+Parámetros del modelo predictivo:
+
+```{r modelo-glm, echo=FALSE, cache=FALSE}
+summary(m1)
+```
 
 # Precisión predictiva
 
 El modelo se actualiza cada día conforme se publican los datos de casos confirmados. En esta sección se presenta la diferencia entre el número de casos observados hoy contra el número de casos que se esperaban hoy según el modelo del día anterior.
 
-```{r accuracy, message=FALSE}
+```{r accuracy, message=FALSE, echo = FALSE, warning=FALSE}
 
 casos %>%
   filter(!t == (max_t-1)) %>%
@@ -105,8 +103,11 @@ read_csv("predicciones.csv") %>%
   knitr::kable(., digits = 2)
 
 ```
- 
-Mañana se esperan `r round(filter(casos_with_predictions, t == max_t)$predicted)` casos confirmados de Covid-19 si la tendencia observada hasta hoy se mantiente igual.
+
+
+# Casos esperados mañana
+
+Mañana se esperan **`r round(filter(casos_with_predictions, t == max_t)$predicted)`** casos confirmados de Covid-19 si la tendencia observada hasta hoy se mantiente igual.
 
 
 # Caso italiano
