@@ -1,5 +1,5 @@
 ---
-title: "Evolución Covid-19 en México"
+title: "Evolución de Covid-19 en México"
 author: "Patricio R Estevez-Soto"
 date: "`r Sys.time()` GMT"
 output:
@@ -8,7 +8,7 @@ output:
     keep_html: FALSE
 ---
 
-# Evolución de casos confirmados de Covid-19 en México
+# Crecimiento de casos confirmados de Covid-19 en México
 
 ```{r modelo, echo=FALSE, cache=FALSE, include=TRUE, message=FALSE, warning=FALSE}
 
