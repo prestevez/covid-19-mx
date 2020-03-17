@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 01:42:43
+2020-03-17 09:11:02 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -12,24 +12,24 @@ originales tomados de la página de la [Secretaría de
 Salud](https://www.gob.mx/salud/documentos/informacion-internacional-y-nacional-sobre-nuevo-coronavirus-2019-ncov).
 
 La gráfica muestra también una linea de tendencia calculada con un
-modelo no lineal:
+modelo exponencial:
 
 \[
 E[casos | dia] = e^{\beta0 + \beta \times dia}
 \]
 
 La gráfica presenta una extrapolación de la línea de tendencia indicando
-cuantos casos habría en tres días *asumiendo que la tendencia se
-mantiene*. Sin embargo, es importante notar que los datos tienen un gran
-sesgo de medición, pues representan solamente los casos detectados—los
-cuales variarán en función de la cantidad de pruebas realizadas y
-verificadas por la autoridad sanitaria. Por tanto, *es posible que el
-modelo predictivo contenga errores importantes y que los casos
-detectados sean menores (o mayores) a los esperados*.
+cuantos casos habría en **tres días asumiendo que la tendencia se
+mantiene**. Sin embargo, es importante notar que **los datos tienen un
+gran sesgo de medición**, pues representan solamente los casos
+detectados—los cuales variarán en función de la cantidad de pruebas
+realizadas y verificadas por la autoridad sanitaria. Por tanto, **es
+posible que el modelo predictivo contenga errores importantes y que los
+casos detectados sean menores (o mayores) a los esperados**.
 
-Por tanto, considerando las limitaciones de los datos, los resultados
-del modelo no deben de considerarse como predicciones robustas. Son
-aproximaciones extremadamente simples para dar una idea general de cómo
+Por tanto, considerando las limitaciones de los datos, **los resultados
+del modelo no deben de considerarse como predicciones robustas**. Son
+aproximaciones extremadamente ingenuas para dar una idea general de cómo
 podría evolucionar el fenómeno con base en los datos existentes.
 
 Parámetros del modelo predictivo:
@@ -76,7 +76,7 @@ observada hasta hoy se mantiente igual.
 
 # Caso italiano
 
-Un ejercicio similar elaborados por expertos para el caso italiano puede
+Un ejercicio similar elaborado por expertos para el caso italiano puede
 encontrarse en Ramuzzi y Ramuzzi (2020).
 
 Remuzzi, A. y Remuzzi, G. (2020) ‘COVID-19 and Italy: what next?’ *The
