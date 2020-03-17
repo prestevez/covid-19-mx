@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 10:53:56 GMT
+2020-03-17 10:54:51 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -65,7 +65,6 @@ según el modelo del día anterior.
 | Fecha      | Observados | Predicción | Error |
 | :--------- | ---------: | ---------: | ----: |
 | 2020-03-15 |         53 |      51.89 |  1.11 |
-| 2020-03-16 |         82 |      73.72 |  8.28 |
 | 2020-03-16 |         82 |      73.72 |  8.28 |
 
 # Casos esperados mañana
