@@ -99,12 +99,15 @@ casos %>%
   transmute(Fecha = date, Observados = casos) %>%
   mutate(Predicción = predicted_today,
          Error = Observados-Predicción) %>%
-  write_csv("predicciones.csv", append = TRUE, col_names = TRUE)
+  write_csv("predicciones.csv", append = TRUE, col_names = FALSE)
 
 read_csv("predicciones.csv") %>%
   knitr::kable(., digits = 2)
 
 ```
+ 
+Mañana se esperan `r round(filter(casos_with_predictions, t == max_t)$predicted)` casos confirmados de Covid-19 si la tendencia observada hasta hoy se mantiente igual.
+
 
 # Caso italiano
 

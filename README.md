@@ -1,7 +1,7 @@
 ---
 title: "Evolución Covid-19 en México"
 author: "Patricio R Estevez-Soto"
-date: "2020-03-16"
+date: "2020-03-17"
 output: md_document
 ---
 
@@ -97,22 +97,22 @@ summary(m1)
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
-## -4.3891  -0.1213   3.1269   3.6472   4.5073  
+## -3.6161  -0.4251   2.7609   3.9794   4.6654  
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept) -1.70954    0.48980   -3.49  0.00329 ** 
-## t            0.33388    0.03058   10.92 1.56e-08 ***
+## (Intercept) -2.19103    0.39331  -5.571 4.22e-05 ***
+## t            0.36536    0.02297  15.907 3.16e-11 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 11.54736)
+## (Dispersion parameter for gaussian family taken to be 11.74525)
 ## 
-##     Null deviance: 3250.24  on 16  degrees of freedom
-## Residual deviance:  173.18  on 15  degrees of freedom
-## AIC: 93.703
+##     Null deviance: 7816.00  on 17  degrees of freedom
+## Residual deviance:  187.91  on 16  degrees of freedom
+## AIC: 99.303
 ## 
-## Number of Fisher Scoring iterations: 9
+## Number of Fisher Scoring iterations: 8
 ```
 
 La gráfica presenta una extrapolación de la línea de tendencia indicando cuantos casos habría en tres días *asumiendo que la tendencia se mantiene*. Sin embargo, es importante notar que los datos tienen un gran sesgo de medición, pues representan solamente los casos detectados---los cuales variarán en función de la cantidad de pruebas realizadas y verificadas por la autoridad sanitaria. Por tanto, *es posible que el modelo predictivo contenga errores importantes y que los casos detectados sean menores (o mayores) a los esperados*.
@@ -138,7 +138,7 @@ casos %>%
   transmute(Fecha = date, Observados = casos) %>%
   mutate(Predicción = predicted_today,
          Error = Observados-Predicción) %>%
-  write_csv("predicciones.csv", append = TRUE, col_names = TRUE)
+  write_csv("predicciones.csv", append = TRUE, col_names = FALSE)
 
 read_csv("predicciones.csv") %>%
   knitr::kable(., digits = 2)
@@ -149,6 +149,10 @@ read_csv("predicciones.csv") %>%
 |Fecha      | Observados| Predicción| Error|
 |:----------|----------:|----------:|-----:|
 |2020-03-15 |         53|      51.89|  1.11|
+|2020-03-16 |         82|      73.72|  8.28|
+ 
+Mañana se esperan 116 casos confirmados de Covid-19 si la tendencia observada hasta hoy se mantiente igual.
+
 
 # Caso italiano
 
