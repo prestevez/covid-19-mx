@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 09:34:02 GMT
+2020-03-17 10:40:33 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -27,8 +27,8 @@ casos detectados sean menores (o mayores) a los esperados**.
 
 Por tanto, considerando las limitaciones de los datos, los resultados
 del modelo **no deben de considerarse como predicciones robustas**. Son
-aproximaciones extremadamente ingenuas para dar una idea general de cómo
-podría evolucionar el fenómeno con base en los datos existentes.
+aproximaciones ingenuas para dar una idea general de cómo podría
+evolucionar el fenómeno con base en los datos existentes.
 
 Parámetros del modelo predictivo:
 
@@ -72,14 +72,40 @@ según el modelo del día anterior.
 Mañana se esperan **116** casos confirmados de Covid-19 si la tendencia
 observada hasta hoy se mantiente igual.
 
-# Caso italiano
+# Discusión
 
-Un ejercicio similar elaborado por expertos para el caso italiano puede
-encontrarse en Ramuzzi y Ramuzzi (2020).
+La tendencia exponencial de los datos de casos confirmados de Covid-19
+en México es consistente con las [tendencias observadas en otros
+países](https://doi.org/10.1016/S0140-6736\(20\)30627-9). La tendencia
+exponencial del modelo sugiere que el número de casos confirmados se
+duplica cada `rround(2/exp(coef(m1)[2]), 2)` días. Este ritmo es más
+rápido que [el observado a nivel
+global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
+pero es consistente con los ritmos de crecimiento observados durante las
+primeras semanas de la epidemia en otros países.
 
-Remuzzi, A. y Remuzzi, G. (2020) ‘COVID-19 and Italy: what next?’ *The
-Lancet* \[online\] doi:
-[10.1016/S0140-6736(20)30627-9](https://doi.org/10.1016/S0140-6736\(20\)30627-9)
+Cabe recalcar que el ritmo de aumento en los casos confirmados **no es
+equivalente al ritmo de crecimiento de casos totales** de Covid-19, pues
+como se mencionó, los casos confirmados dependen tanto del incremento en
+casos totales como de la cantidad de pruebas realizadas. Es probable que
+conforme aumente la cantidad de pruebas realizadas, el ritmo de
+crecimiento de los casos confirmados se haga más lento.
+
+El modelo presentado no considera el efecto que puedan tener las medidas
+de mitigación de la epidemia en la cantidad de casos confirmados en el
+futuro. Como se ha mostrado en la
+[evidencia](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099\(20\)30144-4/fulltext)
+[académica](https://www.thelancet.com/journals/langlo/article/PIIS2214-109X\(20\)30074-7/fulltext),
+y se ilustra magistralmente en [el artículo de Harry Stevens en el
+Washington
+Post](https://www.washingtonpost.com/graphics/2020/world/corona-simulator-spanish/),
+las medidas de contención y mitigación como aislamiento de pacientes,
+cuarentenas a ciudades y regiones, y especialmente el distanciamiento
+social, han demostrado ser efectivos para alentar el ritmo de
+crecimiento de la epidemia.
+
+En la medida que dichas medidas se adpoten con vigor en México, se
+esperaría que el ritmo de crecimiento de la tendencia se alente.
 
 # Reproducir
 
