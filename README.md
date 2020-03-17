@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 10:58:52 GMT
+2020-03-17 11:02:47 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -126,3 +126,10 @@ clona o descarga el repositorio y corre:
 # requiere {rmarkdown}, {tidyverse} y {ggthemes}
 rmarkdown::render("README.Rmd")
 ```
+
+# Licencia
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Esta
+obra está bajo una
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia
+Creative Commons Atribución 4.0 Internacional</a>.
