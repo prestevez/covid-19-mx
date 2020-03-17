@@ -1,7 +1,7 @@
 ---
 title: "Evolución de Covid-19 en México"
 author: "[Patricio R Estevez-Soto](https://twitter.com/prestevez). "
-date: "\n Actualizado: `r Sys.time()` GMT"
+date: "Actualizado: `r Sys.time()` GMT"
 output:
   github_document:
     html_preview: FALSE
@@ -75,7 +75,7 @@ La gráfica muestra también una linea de tendencia calculada con un modelo expo
 
 La gráfica presenta una extrapolación de la línea de tendencia indicando **cuantos casos habría en tres días asumiendo que la tendencia se mantiene**. Sin embargo, es importante notar que **los datos tienen un gran sesgo de medición**, pues representan solamente los **casos detectados**---los cuales variarán en función de la cantidad de pruebas realizadas y verificadas por la autoridad sanitaria. Por tanto, **es posible que el modelo predictivo contenga errores importantes y que los casos detectados sean menores (o mayores) a los esperados**.
 
-Por tanto, considerando las limitaciones de los datos, los resultados del modelo **no deben de considerarse como predicciones robustas**. Son aproximaciones ingenuas para dar una idea general de cómo podría evolucionar el fenómeno con base en los datos existentes.
+Considerando las limitaciones de los datos, los resultados del modelo **no deben de considerarse como predicciones robustas**. Son aproximaciones ingenuas para dar una idea general de cómo podría evolucionar el fenómeno con base en los datos existentes.
 
 Parámetros del modelo predictivo:
 

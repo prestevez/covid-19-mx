@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-17 12:00:00 GMT
+Actualizado: 2020-03-17 12:04:04 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -25,8 +25,8 @@ realizadas y verificadas por la autoridad sanitaria. Por tanto, **es
 posible que el modelo predictivo contenga errores importantes y que los
 casos detectados sean menores (o mayores) a los esperados**.
 
-Por tanto, considerando las limitaciones de los datos, los resultados
-del modelo **no deben de considerarse como predicciones robustas**. Son
+Considerando las limitaciones de los datos, los resultados del modelo
+**no deben de considerarse como predicciones robustas**. Son
 aproximaciones ingenuas para dar una idea general de cómo podría
 evolucionar el fenómeno con base en los datos existentes.
 
