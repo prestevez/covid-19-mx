@@ -1,7 +1,7 @@
 ---
 title: "Evolución de Covid-19 en México"
 author: "Patricio R Estevez-Soto"
-date: "`r Sys.time()` GMT"
+date: "\nActualizado: `r Sys.time()` GMT"
 output:
   github_document:
     html_preview: FALSE
