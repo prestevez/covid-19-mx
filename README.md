@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 10:40:33 GMT
+2020-03-17 10:47:00 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -19,8 +19,8 @@ modelo exponencial:
 La gráfica presenta una extrapolación de la línea de tendencia indicando
 **cuantos casos habría en tres días asumiendo que la tendencia se
 mantiene**. Sin embargo, es importante notar que **los datos tienen un
-gran sesgo de medición**, pues representan solamente los casos
-detectados—los cuales variarán en función de la cantidad de pruebas
+gran sesgo de medición**, pues representan solamente los **casos
+detectados**—los cuales variarán en función de la cantidad de pruebas
 realizadas y verificadas por la autoridad sanitaria. Por tanto, **es
 posible que el modelo predictivo contenga errores importantes y que los
 casos detectados sean menores (o mayores) a los esperados**.
@@ -74,12 +74,13 @@ observada hasta hoy se mantiente igual.
 
 # Discusión
 
-La tendencia exponencial de los datos de casos confirmados de Covid-19
-en México es consistente con las [tendencias observadas en otros
-países](https://doi.org/10.1016/S0140-6736\(20\)30627-9). La tendencia
-exponencial del modelo sugiere que el número de casos confirmados se
-duplica cada `rround(2/exp(coef(m1)[2]), 2)` días. Este ritmo es más
-rápido que [el observado a nivel
+El uso de modelos exponenciales para predecir el númer de casos
+confirmados de Covid-19 es consistente con ejercicios [realizados en
+otros países](https://doi.org/10.1016/S0140-6736\(20\)30627-9).
+
+La tendencia exponencial del modelo sugiere que el número de casos
+confirmados se duplica cada 1.39 días. Este ritmo es más rápido que [el
+observado a nivel
 global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
 pero es consistente con los ritmos de crecimiento observados durante las
 primeras semanas de la epidemia en otros países.
@@ -101,11 +102,11 @@ Washington
 Post](https://www.washingtonpost.com/graphics/2020/world/corona-simulator-spanish/),
 las medidas de contención y mitigación como aislamiento de pacientes,
 cuarentenas a ciudades y regiones, y especialmente el distanciamiento
-social, han demostrado ser efectivos para alentar el ritmo de
+social, han demostrado ser efectivas para alentar el ritmo de
 crecimiento de la epidemia.
 
-En la medida que dichas medidas se adpoten con vigor en México, se
-esperaría que el ritmo de crecimiento de la tendencia se alente.
+**En la medida que dichas medidas se adpoten con vigor en México, se
+esperaría que el crecimiento de la pandemia en el paíse se alente.**
 
 # Reproducir
 
