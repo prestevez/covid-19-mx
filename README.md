@@ -1,7 +1,7 @@
 Evolución Covid-19 en México
 ================
 Patricio R Estevez-Soto
-2020-03-17 09:21:02 GMT
+2020-03-17 09:34:02 GMT
 
 # Evolución de casos confirmados de Covid-19 en México
 
@@ -14,9 +14,7 @@ Salud](https://www.gob.mx/salud/documentos/informacion-internacional-y-nacional-
 La gráfica muestra también una linea de tendencia calculada con un
 modelo exponencial:
 
-\[
-E[casos | dia] = e^{\beta0 + \beta \times dia}
-\]
+*E\[casos | dia\] = e<sup>b<sub>0</sub> + b x dia</sup>*
 
 La gráfica presenta una extrapolación de la línea de tendencia indicando
 **cuantos casos habría en tres días asumiendo que la tendencia se

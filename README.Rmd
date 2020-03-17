@@ -69,9 +69,9 @@ Gráfica con evolución de casos confirmados de Covid-19 en México. Datos origi
 
 La gráfica muestra también una linea de tendencia calculada con un modelo exponencial:
 
-$$
-E[casos | dia] = e^{\beta0 + \beta \times dia}
-$$
+
+*E[casos | dia] = e<sup>b<sub>0</sub> + b x dia</sup>*
+
 
 La gráfica presenta una extrapolación de la línea de tendencia indicando **cuantos casos habría en tres días asumiendo que la tendencia se mantiene**. Sin embargo, es importante notar que **los datos tienen un gran sesgo de medición**, pues representan solamente los casos detectados---los cuales variarán en función de la cantidad de pruebas realizadas y verificadas por la autoridad sanitaria. Por tanto, **es posible que el modelo predictivo contenga errores importantes y que los casos detectados sean menores (o mayores) a los esperados**.
 
