@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-17 12:04:04 GMT
+Actualizado: 2020-03-18 01:09:32 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -37,23 +37,23 @@ Parámetros del modelo predictivo:
     ## glm(formula = casos ~ t, family = gaussian("log"), data = casos)
     ## 
     ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -3.6161  -0.4251   2.7609   3.9794   4.6654  
+    ##    Min      1Q  Median      3Q     Max  
+    ## -5.722  -1.718   2.641   3.402   9.802  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) -2.19103    0.39331  -5.571 4.22e-05 ***
-    ## t            0.36536    0.02297  15.907 3.16e-11 ***
+    ## (Intercept) -1.33764    0.33518  -3.991 0.000946 ***
+    ## t            0.31206    0.01871  16.680 5.68e-12 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 11.74525)
+    ## (Dispersion parameter for gaussian family taken to be 18.21344)
     ## 
-    ##     Null deviance: 7816.00  on 17  degrees of freedom
-    ## Residual deviance:  187.91  on 16  degrees of freedom
-    ## AIC: 99.303
+    ##     Null deviance: 13384.42  on 18  degrees of freedom
+    ## Residual deviance:   309.63  on 17  degrees of freedom
+    ## AIC: 112.95
     ## 
-    ## Number of Fisher Scoring iterations: 8
+    ## Number of Fisher Scoring iterations: 5
 
 # Precisión predictiva
 
@@ -62,14 +62,15 @@ confirmados. En esta sección se presenta la diferencia entre el número
 de casos observados hoy contra el número de casos que se esperaban hoy
 según el modelo del día anterior.
 
-| Fecha      | Observados | Predicción | Error |
-| :--------- | ---------: | ---------: | ----: |
-| 2020-03-15 |         53 |      51.89 |  1.11 |
-| 2020-03-16 |         82 |      73.72 |  8.28 |
+| Fecha      | Observados | Predicción |   Error |
+| :--------- | ---------: | ---------: | ------: |
+| 2020-03-15 |         53 |      51.89 |    1.11 |
+| 2020-03-16 |         82 |      73.72 |    8.28 |
+| 2020-03-17 |         93 |     115.68 | \-22.68 |
 
 # Casos esperados mañana
 
-Mañana se esperan **116** casos confirmados de Covid-19 si la tendencia
+Mañana se esperan **135** casos confirmados de Covid-19 si la tendencia
 observada hasta hoy se mantiene igual.
 
 # Discusión
@@ -79,7 +80,7 @@ confirmados de Covid-19 es consistente con ejercicios [realizados en
 otros países](https://doi.org/10.1016/S0140-6736\(20\)30627-9).
 
 La tendencia exponencial del modelo sugiere que **el número de casos
-confirmados se duplica cada 1.39 días**. Este ritmo es más rápido que
+confirmados se duplica cada 1.46 días**. Este ritmo es más rápido que
 [el observado a nivel
 global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
 pero es consistente con los ritmos de crecimiento observados durante las

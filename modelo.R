@@ -116,4 +116,3 @@ casos_with_predictions %>%
 # m1_mcmc <- MCMCregress(log(casos) ~ t, data = casos)
 # 
 # summary(m1_mcmc)
-
