@@ -35,10 +35,10 @@ modelo <- paste0("Tendencia exponencial (",
                  round((exp(m1[[1]][2])-1)*100),
                  "% más casos x día)")
 tibble(
-  date = seq(max_date,max_date+2, 1),
+  date = max_date,
   casos = NA,
-  t = max_t:(max_t+2),
-  predicted = predict(m1, newdata = data.frame(t = max_t:(max_t+2)), type = "response")
+  t = max_t,
+  predicted = predict(m1, newdata = data.frame(t = max_t), type = "response")
   ) %>%
   bind_rows(
     mutate(casos,
@@ -55,7 +55,7 @@ casos_with_predictions %>%
   theme_fivethirtyeight() +
   geom_line(aes(y = predicted, colour = modelo)) +
   xlab("Total de casos") +
-  labs(title = "México: Casos confirmados de Covid-19",
+  labs(title = paste0("México: Casos confirmados de Covid-19, ", hoy),
        caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
   theme(legend.title = element_blank()) -> p1
 
@@ -73,7 +73,7 @@ La gráfica muestra también una linea de tendencia calculada con un modelo expo
 *E[casos | dia] = e<sup>b<sub>0</sub> + b x dia</sup>*
 
 
-La gráfica presenta una extrapolación de la línea de tendencia indicando **cuantos casos habría en tres días asumiendo que la tendencia se mantiene**. Sin embargo, es importante notar que **los datos tienen un gran sesgo de medición**, pues representan solamente los **casos detectados**---los cuales variarán en función de la cantidad de pruebas realizadas y verificadas por la autoridad sanitaria. Por tanto, **es posible que el modelo predictivo contenga errores importantes y que los casos detectados sean menores (o mayores) a los esperados**.
+La gráfica presenta una extrapolación de la línea de tendencia indicando **cuantos casos habría en un día asumiendo que la tendencia se mantiene**. Sin embargo, es importante notar que **los datos tienen un gran sesgo de medición**, pues representan solamente los **casos detectados**---los cuales variarán en función de la cantidad de pruebas realizadas y verificadas por la autoridad sanitaria. Por tanto, **es muy probable que el modelo predictivo contenga errores importantes y que los casos detectados sean menores (o mayores) a los esperados**.
 
 Considerando las limitaciones de los datos, los resultados del modelo **no deben de considerarse como predicciones robustas**. Son aproximaciones ingenuas para dar una idea general de cómo podría evolucionar el fenómeno con base en los datos existentes.
 
@@ -82,6 +82,7 @@ Parámetros del modelo predictivo:
 ```{r modelo-glm, echo=FALSE, cache=FALSE}
 summary(m1)
 ```
+
 
 # Precisión predictiva
 
@@ -118,7 +119,7 @@ Mañana se esperan **`r round(filter(casos_with_predictions, t == max_t)$predict
 
 El uso de modelos exponenciales para predecir el número de casos confirmados de Covid-19 es consistente con ejercicios [realizados en otros países](https://doi.org/10.1016/S0140-6736(20)30627-9).
 
-La tendencia exponencial del modelo sugiere que **el número de casos confirmados se duplica cada `r round(2/exp(coef(m1)[2]), 2)` días**. Este ritmo es más rápido que [el observado a nivel global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double), pero es consistente con los ritmos de crecimiento observados durante las primeras semanas de la epidemia en otros países.
+La tendencia exponencial del modelo sugiere que **el número de casos confirmados se duplica cada `r round(log(2)/(coef(m1)[2]), 2)` días**. Este ritmo es más rápido que [el observado a nivel global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double), pero es consistente con los ritmos de crecimiento observados durante las primeras semanas de la epidemia en otros países.
 
 Cabe recalcar que el ritmo de aumento en los casos confirmados **no es equivalente al ritmo de crecimiento de casos totales** de Covid-19, pues como se mencionó, los casos confirmados dependen tanto del incremento en casos totales como de la cantidad de pruebas realizadas. Es probable que conforme aumente la cantidad de pruebas realizadas, el ritmo de crecimiento de los casos confirmados se haga más lento.
 
@@ -129,7 +130,12 @@ El modelo presentado no considera el efecto que puedan tener las medidas de miti
 
 # Aclaración
 
-El modelo presentado es **un modelo estadístico básico** que no considera otros supuestos epidemiológicos o médicos que podrían ser relevantes para predecir con mayor precisión cómo evolucionará la epidemia de Covid-19 en el país. La información es de carácter informativo solamente.
+El modelo presentado es **un modelo estadístico básico** que no considera supuestos epidemiológicos o médicos relevantes para predecir con mayor precisión cómo evolucionará la epidemia de Covid-19 en el país. La información es de carácter informativo solamente.
+
+[Modelar epidemias de forma precisa es complejo y difícil](https://twitter.com/danitte/status/1240330754460008448), aun más en el caso de una enfermedad nueva como la Covid-19. Por tanto, reitero que mi objetivo no es modelar cuál va a ser el comportamiento de largo alcance de la epidemia.
+
+Mi objetivo es mucho más modesto: solo se busca dar una idea general de cuántos casos confirmados de Covid-19 podrían reportarse mañana según la tendencia observada hasta el presente, reconociendo que dicha predicción está sujeta a errores de medición y modelado.
+
 
 # Reproducir
 
@@ -139,6 +145,11 @@ Para reproducir este análisis usando [R](https://cran.r-project.org/), clona o 
 # requiere {rmarkdown}, {tidyverse} y {ggthemes}
 rmarkdown::render("README.Rmd")
 ```
+
+# Actualizaciones
+
+ - **19-03-2020**: La extrapolación se redujo a 1 día dados los errores de predicción del modelo. Se expandió la sección de aclaración. Se corrigió el cálculo del tiempo en el que se espera que se dupliquen el total de casos confirmados. El cálculo anterior estaba sesgado hacia abajo (el tiempo calculado era menor).
+
 
 # Licencia
 

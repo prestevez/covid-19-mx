@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-18 01:09:32 GMT
+Actualizado: 2020-03-19 01:18:54 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -17,12 +17,12 @@ modelo exponencial:
 *E\[casos | dia\] = e<sup>b<sub>0</sub> + b x dia</sup>*
 
 La gráfica presenta una extrapolación de la línea de tendencia indicando
-**cuantos casos habría en tres días asumiendo que la tendencia se
+**cuantos casos habría en un día asumiendo que la tendencia se
 mantiene**. Sin embargo, es importante notar que **los datos tienen un
 gran sesgo de medición**, pues representan solamente los **casos
 detectados**—los cuales variarán en función de la cantidad de pruebas
-realizadas y verificadas por la autoridad sanitaria. Por tanto, **es
-posible que el modelo predictivo contenga errores importantes y que los
+realizadas y verificadas por la autoridad sanitaria. Por tanto, **es muy
+probable que el modelo predictivo contenga errores importantes y que los
 casos detectados sean menores (o mayores) a los esperados**.
 
 Considerando las limitaciones de los datos, los resultados del modelo
@@ -38,20 +38,20 @@ Parámetros del modelo predictivo:
     ## 
     ## Deviance Residuals: 
     ##    Min      1Q  Median      3Q     Max  
-    ## -5.722  -1.718   2.641   3.402   9.802  
+    ## -7.112  -2.637   1.760   2.892  12.524  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) -1.33764    0.33518  -3.991 0.000946 ***
-    ## t            0.31206    0.01871  16.680 5.68e-12 ***
+    ## (Intercept) -0.91097    0.27360   -3.33  0.00373 ** 
+    ## t            0.28622    0.01456   19.65  1.3e-13 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 18.21344)
+    ## (Dispersion parameter for gaussian family taken to be 21.89034)
     ## 
-    ##     Null deviance: 13384.42  on 18  degrees of freedom
-    ## Residual deviance:   309.63  on 17  degrees of freedom
-    ## AIC: 112.95
+    ##     Null deviance: 22439.75  on 19  degrees of freedom
+    ## Residual deviance:   394.02  on 18  degrees of freedom
+    ## AIC: 122.37
     ## 
     ## Number of Fisher Scoring iterations: 5
 
@@ -67,10 +67,11 @@ según el modelo del día anterior.
 | 2020-03-15 |         53 |      51.89 |    1.11 |
 | 2020-03-16 |         82 |      73.72 |    8.28 |
 | 2020-03-17 |         93 |     115.68 | \-22.68 |
+| 2020-03-18 |        118 |     134.77 | \-16.77 |
 
 # Casos esperados mañana
 
-Mañana se esperan **135** casos confirmados de Covid-19 si la tendencia
+Mañana se esperan **164** casos confirmados de Covid-19 si la tendencia
 observada hasta hoy se mantiene igual.
 
 # Discusión
@@ -80,7 +81,7 @@ confirmados de Covid-19 es consistente con ejercicios [realizados en
 otros países](https://doi.org/10.1016/S0140-6736\(20\)30627-9).
 
 La tendencia exponencial del modelo sugiere que **el número de casos
-confirmados se duplica cada 1.46 días**. Este ritmo es más rápido que
+confirmados se duplica cada 2.42 días**. Este ritmo es más rápido que
 [el observado a nivel
 global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
 pero es consistente con los ritmos de crecimiento observados durante las
@@ -113,10 +114,20 @@ sea más lento.**
 # Aclaración
 
 El modelo presentado es **un modelo estadístico básico** que no
-considera otros supuestos epidemiológicos o médicos que podrían ser
-relevantes para predecir con mayor precisión cómo evolucionará la
-epidemia de Covid-19 en el país. La información es de carácter
-informativo solamente.
+considera supuestos epidemiológicos o médicos relevantes para predecir
+con mayor precisión cómo evolucionará la epidemia de Covid-19 en el
+país. La información es de carácter informativo solamente.
+
+[Modelar epidemias de forma precisa es complejo y
+difícil](https://twitter.com/danitte/status/1240330754460008448), aun
+más en el caso de una enfermedad nueva como la Covid-19. Por tanto,
+reitero que mi objetivo no es modelar cuál va a ser el comportamiento de
+largo alcance de la epidemia.
+
+Mi objetivo es mucho más modesto: solo se busca dar una idea general de
+cuántos casos confirmados de Covid-19 podrían reportarse mañana según la
+tendencia observada hasta el presente, reconociendo que dicha predicción
+está sujeta a errores de medición y modelado.
 
 # Reproducir
 
@@ -127,6 +138,14 @@ clona o descarga el repositorio y corre:
 # requiere {rmarkdown}, {tidyverse} y {ggthemes}
 rmarkdown::render("README.Rmd")
 ```
+
+# Actualizaciones
+
+  - **19-03-2020**: La extrapolación se redujo a 1 día dados los errores
+    de predicción del modelo. Se expandió la sección de aclaración. Se
+    corrigió el cálculo del tiempo en el que se espera que se dupliquen
+    el total de casos confirmados. El cálculo anterior estaba sesgado
+    hacia abajo (el tiempo calculado era menor).
 
 # Licencia
 
