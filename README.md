@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-19 01:18:54 GMT
+Actualizado: 2020-03-19 01:41:20 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -145,7 +145,8 @@ rmarkdown::render("README.Rmd")
     de predicción del modelo. Se expandió la sección de aclaración. Se
     corrigió el cálculo del tiempo en el que se espera que se dupliquen
     el total de casos confirmados. El cálculo anterior estaba sesgado
-    hacia abajo (el tiempo calculado era menor).
+    hacia abajo (el tiempo calculado era menor, el cálculo anterior era
+    2/exp(Beta) = t, debe ser log(2)/Beta = t).
 
 # Licencia
 

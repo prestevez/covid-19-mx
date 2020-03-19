@@ -148,7 +148,7 @@ rmarkdown::render("README.Rmd")
 
 # Actualizaciones
 
- - **19-03-2020**: La extrapolación se redujo a 1 día dados los errores de predicción del modelo. Se expandió la sección de aclaración. Se corrigió el cálculo del tiempo en el que se espera que se dupliquen el total de casos confirmados. El cálculo anterior estaba sesgado hacia abajo (el tiempo calculado era menor).
+ - **19-03-2020**: La extrapolación se redujo a 1 día dados los errores de predicción del modelo. Se expandió la sección de aclaración. Se corrigió el cálculo del tiempo en el que se espera que se dupliquen el total de casos confirmados. El cálculo anterior estaba sesgado hacia abajo (el tiempo calculado era menor, el cálculo anterior era 2/exp(Beta) = t, debe ser log(2)/Beta = t).
 
 
 # Licencia
