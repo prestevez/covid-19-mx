@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-19 01:41:20 GMT
+Actualizado: 2020-03-20 01:12:03 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -38,20 +38,20 @@ Parámetros del modelo predictivo:
     ## 
     ## Deviance Residuals: 
     ##    Min      1Q  Median      3Q     Max  
-    ## -7.112  -2.637   1.760   2.892  12.524  
+    ## -7.109  -2.367   1.716   2.761  12.522  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) -0.91097    0.27360   -3.33  0.00373 ** 
-    ## t            0.28622    0.01456   19.65  1.3e-13 ***
+    ## (Intercept) -0.91169    0.21058  -4.329 0.000361 ***
+    ## t            0.28626    0.01065  26.890  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 21.89034)
+    ## (Dispersion parameter for gaussian family taken to be 20.7378)
     ## 
-    ##     Null deviance: 22439.75  on 19  degrees of freedom
-    ## Residual deviance:   394.02  on 18  degrees of freedom
-    ## AIC: 122.37
+    ##     Null deviance: 40774.57  on 20  degrees of freedom
+    ## Residual deviance:   394.02  on 19  degrees of freedom
+    ## AIC: 127.16
     ## 
     ## Number of Fisher Scoring iterations: 5
 
@@ -68,11 +68,14 @@ según el modelo del día anterior.
 | 2020-03-16 |         82 |      73.72 |    8.28 |
 | 2020-03-17 |         93 |     115.68 | \-22.68 |
 | 2020-03-18 |        118 |     134.77 | \-16.77 |
+| 2020-03-19 |        164 |     163.96 |    0.04 |
 
 # Casos esperados mañana
 
-Mañana se esperan **164** casos confirmados de Covid-19 si la tendencia
-observada hasta hoy se mantiene igual.
+Mañana se esperan **218** casos confirmados de Covid-19 si la tendencia
+observada hasta hoy se mantiene igual. Sin embargo, esta cifra muy
+probablemente esté equivocada, pues el modelo usado es extremadamente
+simple. El objetivo es tener una vaga noción de la cifra esperada.
 
 # Discusión
 
