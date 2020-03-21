@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-20 01:12:03 GMT
+Actualizado: 2020-03-21 01:06:11 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -38,20 +38,20 @@ Parámetros del modelo predictivo:
     ## 
     ## Deviance Residuals: 
     ##    Min      1Q  Median      3Q     Max  
-    ## -7.109  -2.367   1.716   2.761  12.522  
+    ## -8.352  -3.075   1.206   2.850  12.286  
     ## 
     ## Coefficients:
-    ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) -0.91169    0.21058  -4.329 0.000361 ***
-    ## t            0.28626    0.01065  26.890  < 2e-16 ***
+    ##              Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept) -0.677303   0.173683    -3.9 0.000889 ***
+    ## t            0.273428   0.008388    32.6  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 20.7378)
+    ## (Dispersion parameter for gaussian family taken to be 23.57935)
     ## 
-    ##     Null deviance: 40774.57  on 20  degrees of freedom
-    ## Residual deviance:   394.02  on 19  degrees of freedom
-    ## AIC: 127.16
+    ##     Null deviance: 68733.09  on 21  degrees of freedom
+    ## Residual deviance:   471.59  on 20  degrees of freedom
+    ## AIC: 135.86
     ## 
     ## Number of Fisher Scoring iterations: 5
 
@@ -69,10 +69,11 @@ según el modelo del día anterior.
 | 2020-03-17 |         93 |     115.68 | \-22.68 |
 | 2020-03-18 |        118 |     134.77 | \-16.77 |
 | 2020-03-19 |        164 |     163.96 |    0.04 |
+| 2020-03-20 |        203 |     218.34 | \-15.34 |
 
 # Casos esperados mañana
 
-Mañana se esperan **218** casos confirmados de Covid-19 si la tendencia
+Mañana se esperan **274** casos confirmados de Covid-19 si la tendencia
 observada hasta hoy se mantiene igual. Sin embargo, esta cifra muy
 probablemente esté equivocada, pues el modelo usado es extremadamente
 simple. El objetivo es tener una vaga noción de la cifra esperada.
@@ -84,7 +85,7 @@ confirmados de Covid-19 es consistente con ejercicios [realizados en
 otros países](https://doi.org/10.1016/S0140-6736\(20\)30627-9).
 
 La tendencia exponencial del modelo sugiere que **el número de casos
-confirmados se duplica cada 2.42 días**. Este ritmo es más rápido que
+confirmados se duplica cada 2.54 días**. Este ritmo es más rápido que
 [el observado a nivel
 global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
 pero es consistente con los ritmos de crecimiento observados durante las
