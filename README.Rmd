@@ -84,9 +84,185 @@ summary(m1)
 ```
 
 
+# Estimación de errores Jackknife
+
+Los errores estándar calculados en el modelo exponencial son erróneos. Esto es porque, especialmente para los casos acumulados, pero para para muchos datos en serie de tiempo los modelos no son independientes entre sí (hay autocorrelación en el tiempo) y no están identicamente distribuidos. Por ello, los errores no cumplen con los supestos básicos del modelo y no son confiables.
+
+Hay varias maneras de obtener errores robustos. Una de ella es usar el método [Jackknife](https://es.wikipedia.org/wiki/Jackknife_(estad%C3%ADstica)). Esto implica calcular la línea de tendencia *n* veces omitiendo secuencialmente una observación del índice 1 a *n* de cada cáclulo. Ello nos da una distribución más robusta del valor esperado del estimador de la tendencia.
+
+
+```{r jackknife-totales, echo=FALSE, cache=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+### Jackknife estimate?
+
+lapply(1:nrow(casos), function(x){
+  glm(casos ~ t, 
+      data = casos[-x,],
+      family = gaussian("log"))
+}) -> m1_jk_ls
+
+sapply(m1_jk_ls, function(x) coef(x)) %>% data.frame() %>%
+  mutate(var = rownames(.)) %>%
+  pivot_longer(-var, names_to = "rep") %>%
+  group_by(var) %>%
+  summarise(Estimate = mean(value),
+            ci_low = quantile(value, 0.025),
+            ci_high = quantile(value, 0.975)) -> m1_jk
+
+pred_jk <- function(model, t, type = c("Estimate", "ci_low", "ci_high")){
+  terms <- unlist(model[,type[1]])
+  preds <- exp(terms[1] + (terms[2] * t))
+  return(preds)
+}
+
+
+casos_with_predictions %>%
+  mutate(Jackknife = pred_jk(m1_jk, t = t),
+         Jackknife_low = pred_jk(m1_jk, t = t, "ci_low"),
+         Jackknife_high = pred_jk(m1_jk, t = t, "ci_high")) -> casos_with_predictions_jk
+
+casos_with_predictions_jk %>%
+  ggplot(aes(date, casos)) + 
+  geom_point() +
+  theme_fivethirtyeight() +
+  geom_line(aes(y = predicted, linetype = "GLM"), colour = "red") +
+  #geom_line(aes(y = Jackknife, linetype = "Jackknife"), colour = "red") +
+  geom_errorbar(aes(ymin = Jackknife_low,
+                    ymax = Jackknife_high,
+                    linetype = "Jackknife"),
+                colour = "red") + 
+  xlab("Total de casos") + 
+  labs(title = paste0("México: Casos confirmados de Covid-19, ", hoy),
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
+  theme(legend.title = element_blank()) -> p1jk
+
+ggsave("casos_jk.png", p1jk, width = 7, height = 5)
+
+jk_pred <- filter(casos_with_predictions_jk, t == max_t)[,c(7,8)]
+
+```
+
+![](casos_jk.png)
+
+Gráfica con evolución del total de casos confirmados de Covid-19 en México con errores Jackknife.
+
+El Jackknife no es la única forma de obtener errores robustos. En es caso decidí usar el Jackknife para controlar el sesgo por errores de muestreo y controlar el efecto de observaciones fuera de rango (outliers). De nuevo, este no es un modelo epidemiológico y las predicciones no son robustas.
+
+Parámetros Jackknife del modelo predictivo de casos:
+
+```{r m1_jk, echo=FALSE, cache=FALSE}
+## Estimación Jackknife
+m1_jk
+
+```
+
+# Modelo de casos nuevos
+
+El modelo exponencial del acumulado de casos confirmados de Covid-19 es problemático pues las observaciones son monotónicas (solo pueden permanecer igual o crecer) y presentan una fuerte correlación temporal (el total de hoy es el total de ayer más los casos de hoy). Por tanto, se [recomienda](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(03)13335-1/fulltext) analizar el conteo de **casos nuevos** en lugar de usar el total de casos confirmados.
+
+Para ello utilicé un modelo Poisson (un modelo apropiado para modelar conteos de eventos discretos) asumiendo que la tasa de ocurrencia de casos nuevos varía exponencialmente con el tiempo (según el modelo Poisson estándar). Asimismo, utilicé errores estándar Jackknife para calcular un intervalo de confianza del 95%.
+
+```{r modelo-casos-nuevos, echo=FALSE, cache=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+
+read_csv("confirmados.csv") %>%
+  mutate(t = (nrow(.)-1):0) %>%
+  arrange(date) %>%
+  mutate(casos_nuevos = casos-lag(casos),
+         muertes_nuevas = muertes - lag(muertes)) %>%
+  drop_na -> casos_ext
+
+write_csv(casos_ext, "confirmados_extended.csv")
+
+n1 <- glm(casos_nuevos ~ t,
+          data = casos_ext,
+          family = poisson("log"))
+
+
+modelo_n <- paste0("Tendencia Poisson (",
+                 round((exp(n1[[1]][2])-1)*100),
+                 "% más casos nuevos x día)")
+tibble(
+  date = max_date,
+  casos_nuevos = NA,
+  t = max_t,
+  predicted = predict(n1, newdata = data.frame(t = max_t), type = "response")
+  ) %>%
+  bind_rows(
+    mutate(casos_ext,
+      predicted = predict(n1, type = "response"))) %>%
+  arrange(date) -> casos_nuevos_with_predictions
+
+
+### Jackknife estimate?
+
+lapply(1:nrow(casos_ext), function(x){
+  glm(casos_nuevos ~ t, 
+      data = casos_ext[-x,],
+      family = poisson())
+}) -> n1_jk_ls
+
+sapply(n1_jk_ls, function(x) coef(x)) %>% data.frame() %>%
+  mutate(var = rownames(.)) %>%
+  pivot_longer(-var, names_to = "rep") %>%
+  group_by(var) %>%
+  summarise(Estimate = mean(value),
+            ci_low = quantile(value, 0.025),
+            ci_high = quantile(value, 0.975)) -> n1_jk
+
+casos_nuevos_with_predictions %>%
+  mutate(Jackknife = pred_jk(n1_jk, t = t),
+         Jackknife_low = pred_jk(n1_jk, t = t, "ci_low"),
+         Jackknife_high = pred_jk(n1_jk, t = t, "ci_high")) -> casos_nuevos_with_predictions_jk
+
+
+casos_nuevos_with_predictions_jk %>%
+  ggplot(aes(date, casos_nuevos)) +
+  geom_point() +
+  theme_fivethirtyeight() +
+  geom_line(aes(y = predicted, colour = modelo_n)) +
+  geom_errorbar(aes(ymin = Jackknife_low,
+                    ymax = Jackknife_high,
+                    colour = modelo_n),
+                linetype = 2) + 
+  xlab("Total de casos nuevos") +
+  labs(title = "México: Casos confirmados **nuevos** de Covid-19",
+       subtitle = paste0("Actualización: ", hoy, ". Intervalo de confianza Jackknife del 95%."),
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
+  theme(legend.title = element_blank()) -> p1n
+
+ggsave("casos_nuevos.png", p1n, width = 7, height = 5)
+
+jk_pred_nuevos <- filter(casos_nuevos_with_predictions_jk, t == max_t)[,c(9,10)]
+
+```
+
+![](casos_nuevos.png)
+
+De nuevo, es importante recordar que este modelo no es robusto ni busca modelar el curso de la epidemia, es simplemente una aproximación al patrón de crecimiento que han seguido los casos reportados de Covid-19.
+
+Parámetros del modelo predictivo de casos nuevos:
+
+```{r modelo-poisson, echo=FALSE, cache=FALSE}
+summary(n1)
+
+## Estimación Jackknife
+n1_jk
+
+```
+
+# Casos esperados mañana
+
+Mañana se espera que el **total acumulado de casos confirmados** de Covid-19 alcance **`r round(filter(casos_with_predictions, t == max_t)$predicted)`**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred[[1]])`** y **`r round(jk_pred[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
+
+Según el modelo de casos nuevos, mañana se esperan **`r round(filter(casos_nuevos_with_predictions, t == max_t)$predicted)` casos confirmados nuevos**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred_nuevos[[1]])`** y **`r round(jk_pred_nuevos[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
+
+Sin embargo, estas cifra muy probablemente estén equivocadas, pues el modelo usado es extremadamente simple. El objetivo es tener una vaga noción de la cifra esperada.
+
+
 # Precisión predictiva
 
-El modelo se actualiza cada día conforme se publican los datos de casos confirmados. En esta sección se presenta la diferencia entre el número de casos observados hoy contra el número de casos que se esperaban hoy según el modelo del día anterior.
+Los modelos se actualizan cada día conforme se publican los datos de casos confirmados. En esta sección se presenta la diferencia entre el número de casos observados hoy contra el número de casos que se esperaban hoy según el modelo del día anterior.
+
+Para el modelo del acumulado de casos:
 
 ```{r accuracy, message=FALSE, echo = FALSE, warning=FALSE}
 
@@ -106,14 +282,35 @@ casos %>%
   write_csv("predicciones.csv", append = TRUE, col_names = FALSE)
 
 read_csv("predicciones.csv") %>%
-  knitr::kable(., digits = 2)
+  knitr::kable(., digits = 2, col.names = c("Fecha", "Casos Totales Observados", "Predicción", "Error"))
 
 ```
 
 
-# Casos esperados mañana
+Para el modelo de casos nuevos:
 
-Mañana se esperan **`r round(filter(casos_with_predictions, t == max_t)$predicted)`** casos confirmados de Covid-19 si la tendencia observada hasta hoy se mantiene igual. Sin embargo, esta cifra muy probablemente esté equivocada, pues el modelo usado es extremadamente simple. El objetivo es tener una vaga noción de la cifra esperada.
+```{r accuracy-new, message=FALSE, echo = FALSE, warning=FALSE}
+
+casos_ext %>%
+  filter(!t == (max_t-1)) %>%
+  glm(casos_nuevos ~ t, data = ., family = poisson("log")) -> n1_yesterday
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  predict(n1_yesterday, newdata = ., type = "response") -> nuevos_predicted_today
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  transmute(Fecha = date, Observados = casos_nuevos) %>%
+  mutate(Predicción = nuevos_predicted_today,
+         Error = Observados-Predicción) %>%
+  write_csv("predicciones_nuevos.csv", append = TRUE, col_names = FALSE)
+
+read_csv("predicciones_nuevos.csv") %>%
+  knitr::kable(., digits = 2, col.names = c("Fecha", "Casos Nuevos Observados", "Predicción", "Error"))
+
+```
+
 
 # Discusión
 
@@ -149,6 +346,7 @@ rmarkdown::render("README.Rmd")
 # Actualizaciones
 
  - **19-03-2020**: La extrapolación se redujo a 1 día dados los errores de predicción del modelo. Se expandió la sección de aclaración. Se corrigió el cálculo del tiempo en el que se espera que se dupliquen el total de casos confirmados. El cálculo anterior estaba sesgado hacia abajo (el tiempo calculado era menor, el cálculo anterior era 2/exp(Beta) = t, debe ser log(2)/Beta = t).
+ - **23-03-2020**: Se agregó un modelo Poisson de casos nuevos. Se agregaron Jackknife estimates.
 
 
 # Licencia

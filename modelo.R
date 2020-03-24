@@ -75,7 +75,11 @@ pred_jk <- function(model, t, type = c("Estimate", "ci_low", "ci_high")){
 casos_with_predictions %>%
   mutate(Jackknife = pred_jk(m1_jk, t = t),
          Jackknife_low = pred_jk(m1_jk, t = t, "ci_low"),
-         Jackknife_high = pred_jk(m1_jk, t = t, "ci_high")) %>%
+         Jackknife_high = pred_jk(m1_jk, t = t, "ci_high")) -> casos_with_predictions_jk
+
+casos_with_predictions_jk %>% data.frame
+
+casos_with_predictions_jk %>%
   ggplot(aes(date, casos)) + 
   geom_point() +
   theme_fivethirtyeight() +
@@ -88,7 +92,7 @@ casos_with_predictions %>%
   xlab("Total de casos") + 
   labs(title = "México: Casos confirmados de Covid-19",
        caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
-  theme(legend.title = element_blank())
+  theme(legend.title = element_blank()) 
 
 ### MCMC does not appear to offer any benefits
 # install.packages("MCMCpack")
@@ -116,3 +120,24 @@ casos_with_predictions %>%
 # m1_mcmc <- MCMCregress(log(casos) ~ t, data = casos)
 # 
 # summary(m1_mcmc)
+
+
+m1p <- update(m1, family = "poisson")
+
+summary(m1p)
+summary(m1)
+
+ggplot(casos, 
+       aes(date, casos)) +
+  geom_point() +
+  geom_line(aes(y = predict(m1p, type = "response"), colour = "Poisson")) +
+  geom_line(aes(y = predict(m1, type = "response"), colour = "GLM"))
+
+require(MASS)
+
+m1nb <- glm.nb(casos ~ t, data = casos)
+summary(m1nb)
+
+lrtest <- lmtest::lrtest
+
+lrtest(m1p, m1nb)
