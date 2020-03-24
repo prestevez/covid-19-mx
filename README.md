@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-24 01:05:29 GMT
+Actualizado: 2020-03-24 01:09:50 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -37,23 +37,23 @@ Parámetros del modelo predictivo:
     ## glm(formula = casos ~ t, family = gaussian("log"), data = casos)
     ## 
     ## Deviance Residuals: 
-    ##      Min        1Q    Median        3Q       Max  
-    ## -11.4130   -3.6141   -0.2124    2.3445   11.4760  
+    ##     Min       1Q   Median       3Q      Max  
+    ## -19.126   -6.472   -1.250    2.217   12.463  
     ## 
     ## Coefficients:
-    ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) -0.233077   0.133248  -1.749   0.0942 .  
-    ## t            0.250495   0.005909  42.391   <2e-16 ***
+    ##             Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept) 0.110343   0.150781   0.732    0.472    
+    ## t           0.233833   0.006438  36.319   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 36.12251)
+    ## (Dispersion parameter for gaussian family taken to be 74.19919)
     ## 
-    ##     Null deviance: 179872.96  on 23  degrees of freedom
-    ## Residual deviance:    794.71  on 22  degrees of freedom
-    ## AIC: 158.11
+    ##     Null deviance: 270376.6  on 24  degrees of freedom
+    ## Residual deviance:   1706.6  on 23  degrees of freedom
+    ## AIC: 182.53
     ## 
-    ## Number of Fisher Scoring iterations: 5
+    ## Number of Fisher Scoring iterations: 6
 
 # Estimación de errores Jackknife
 
@@ -86,10 +86,10 @@ predicciones no son robustas.
 Parámetros Jackknife del modelo predictivo de casos:
 
     ## # A tibble: 2 x 4
-    ##   var         Estimate ci_low ci_high
-    ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 (Intercept)   -0.238 -0.355  -0.184
-    ## 2 t              0.251  0.248   0.256
+    ##   var         Estimate  ci_low ci_high
+    ##   <chr>          <dbl>   <dbl>   <dbl>
+    ## 1 (Intercept)    0.102 -0.0666   0.158
+    ## 2 t              0.234  0.232    0.242
 
 # Modelo de casos nuevos
 
@@ -122,39 +122,39 @@ Parámetros del modelo predictivo de casos nuevos:
     ## 
     ## Deviance Residuals: 
     ##     Min       1Q   Median       3Q      Max  
-    ## -2.7127  -1.1934  -0.4583   0.8208   3.0603  
+    ## -2.8578  -1.4671  -0.5063   0.7183   3.0569  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept) -1.62204    0.30147   -5.38 7.43e-08 ***
-    ## t            0.24373    0.01449   16.83  < 2e-16 ***
+    ## (Intercept)  -1.2600     0.2665  -4.728 2.26e-06 ***
+    ## t             0.2223     0.0124  17.927  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for poisson family taken to be 1)
     ## 
-    ##     Null deviance: 554.605  on 23  degrees of freedom
-    ## Residual deviance:  59.315  on 22  degrees of freedom
-    ## AIC: 131.41
+    ##     Null deviance: 612.870  on 24  degrees of freedom
+    ## Residual deviance:  70.966  on 23  degrees of freedom
+    ## AIC: 148.84
     ## 
     ## Number of Fisher Scoring iterations: 5
 
     ## # A tibble: 2 x 4
     ##   var         Estimate ci_low ci_high
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 (Intercept)   -1.63  -1.85   -1.48 
-    ## 2 t              0.244  0.237   0.253
+    ## 1 (Intercept)   -1.27  -1.52   -1.13 
+    ## 2 t              0.223  0.217   0.236
 
 # Casos esperados mañana
 
 Mañana se espera que el **total acumulado de casos confirmados** de
-Covid-19 alcance **415**, con un intervalo de confianza Jackknife del
-95% entre **349** y **504**, si la tendencia observada hasta hoy se
+Covid-19 alcance **488**, con un intervalo de confianza Jackknife del
+95% entre **388** y **633**, si la tendencia observada hasta hoy se
 mantiene igual.
 
-Según el modelo de casos nuevos, mañana se esperan **87 casos
+Según el modelo de casos nuevos, mañana se esperan **92 casos
 confirmados nuevos**, con un intervalo de confianza Jackknife del 95%
-entre **60** y **128**, si la tendencia observada hasta hoy se mantiene
+entre **61** y **149**, si la tendencia observada hasta hoy se mantiene
 igual.
 
 Sin embargo, estas cifra muy probablemente estén equivocadas, pues el
@@ -180,12 +180,14 @@ Para el modelo del acumulado de casos:
 | 2020-03-20 |                      203 |     218.34 | \-15.34 |
 | 2020-03-21 |                      251 |     273.56 | \-22.56 |
 | 2020-03-22 |                      316 |     335.79 | \-19.79 |
+| 2020-03-23 |                      367 |     415.43 | \-48.43 |
 
 Para el modelo de casos nuevos:
 
-| Fecha      | Casos Nuevos Observados | Predicción |  Error |
-| :--------- | ----------------------: | ---------: | -----: |
-| 2020-03-22 |                      65 |      70.92 | \-5.92 |
+| Fecha      | Casos Nuevos Observados | Predicción |   Error |
+| :--------- | ----------------------: | ---------: | ------: |
+| 2020-03-22 |                      65 |      70.92 |  \-5.92 |
+| 2020-03-23 |                      51 |      87.47 | \-36.47 |
 
 # Discusión
 
@@ -194,7 +196,7 @@ confirmados de Covid-19 es consistente con ejercicios [realizados en
 otros países](https://doi.org/10.1016/S0140-6736\(20\)30627-9).
 
 La tendencia exponencial del modelo sugiere que **el número de casos
-confirmados se duplica cada 2.77 días**. Este ritmo es más rápido que
+confirmados se duplica cada 2.96 días**. Este ritmo es más rápido que
 [el observado a nivel
 global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
 pero es consistente con los ritmos de crecimiento observados durante las
@@ -260,14 +262,8 @@ rmarkdown::render("README.Rmd")
     el total de casos confirmados. El cálculo anterior estaba sesgado
     hacia abajo (el tiempo calculado era menor, el cálculo anterior era
     2/exp(Beta) = t, debe ser log(2)/Beta = t).
-  - **23-03-2020**: Things to do:
-  - Jackknife estimates
-  - Discussion on SE and why the model is wrong
-  - Move to prestevez.com
-  - Track deaths
-  - Calculate cases based on deaths
-  - Simple calculation of deaths based on probabilities
-  - model new cases, not total cases
+  - **23-03-2020**: Se agregó un modelo Poisson de casos nuevos. Se
+    agregaron Jackknife estimates.
 
 # Licencia
 
