@@ -141,3 +141,15 @@ summary(m1nb)
 lrtest <- lmtest::lrtest
 
 lrtest(m1p, m1nb)
+
+summary(m1)
+
+lm1 <- lm(log(casos) ~  t, data = casos)
+summary(lm1)
+
+casos %>%
+  ggplot(aes(date, casos)) +
+  geom_point() +
+  geom_line(aes(y = exp(predict(lm1)), colour = "LM")) +
+  geom_line(aes(y = predict(m1, type = "response"), colour = "GLM"))
+  
