@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-25 08:48:22 GMT
+Actualizado: 2020-03-25 09:37:02 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -182,6 +182,12 @@ Para el modelo del acumulado de casos:
 | 2020-03-22 |                      316 |     335.79 | \-19.79 |
 | 2020-03-24 |                      405 |     487.84 | \-82.84 |
 
+Intervalos de confianza JK
+
+|   Fecha    | Casos Totales Observados | Rango esperado | Fuera de rango |
+| :--------: | :----------------------: | :------------: | :------------: |
+| 2020-03-24 |           405            |    388-633     |       No       |
+
 Para el modelo de casos nuevos:
 
 | Fecha      | Casos Nuevos Observados | Predicción |   Error |
@@ -189,6 +195,12 @@ Para el modelo de casos nuevos:
 | 2020-03-22 |                      65 |      70.92 |  \-5.92 |
 | 2020-03-23 |                      51 |      87.47 | \-36.47 |
 | 2020-03-24 |                      38 |      91.69 | \-53.69 |
+
+Intervalos de confianza JK, casos nuevos.
+
+|   Fecha    |  Casos Nuevos Observados | Rango esperado | Fuera de rango |
+| :--------: | :----------------------: | :------------: | :------------: |
+| 2020-03-24 |            38            |     61-149     |       Sí       |
 
 # Discusión
 

@@ -282,7 +282,55 @@ casos %>%
   write_csv("predicciones.csv", append = TRUE, col_names = FALSE)
 
 read_csv("predicciones.csv") %>%
-  knitr::kable(., digits = 2, col.names = c("Fecha", "Casos Totales Observados", "Predicción", "Error"))
+  knitr::kable(., digits = 2, 
+               col.names = c("Fecha", "Casos Totales Observados", "Predicción", "Error"))
+
+
+# Tabla con rangos JK
+
+jk_model <- function(x, alpha = 0.05){
+  dta <- model.frame(x)
+  
+  lapply(1:nrow(dta), function(n){
+  update(x, 
+      data = dta[-n,])
+    }) -> models_list
+  
+  alpha2 <- alpha/2
+  ci <- c(alpha2, 1- alpha2)
+  
+  sapply(models_list, function(x) coef(x)) %>% data.frame() %>%
+  mutate(var = rownames(.)) %>%
+  pivot_longer(-var, names_to = "rep") %>%
+  group_by(var) %>%
+  summarise(Estimate = mean(value),
+            ci_low = quantile(value, ci[1]),
+            ci_high = quantile(value, ci[2]))
+  
+}
+
+jk_model(m1_yesterday) -> jk_yesterday
+
+casos %>%
+  filter(t == (max_t-1)) %$% 
+  pred_jk(jk_yesterday, t = t, "ci_low") -> predicted_today_jk
+
+casos %>%
+  filter(t == (max_t-1)) %$% 
+  pred_jk(jk_yesterday, t = t, "ci_high") %>% 
+  c(predicted_today_jk, .) -> predicted_today_jk
+
+casos %>%
+  filter(t == (max_t-1)) %>%
+  transmute(Fecha = date, Observados = casos) %>%
+  mutate("Rango esperado" = paste(round(predicted_today_jk), collapse = "-"),
+         "Fuera de rango" = ifelse(Observados < predicted_today_jk[1] | 
+                                     Observados > predicted_today_jk[2], "Sí", "No")) %>%
+   write_csv("predicciones_jk.csv", append = TRUE, col_names = FALSE)
+
+read_csv("predicciones_jk.csv") %>%
+  knitr::kable(., digits = 2, align = "c", caption = "Intervalos de confianza JK",
+               col.names = c("Fecha", "Casos Totales Observados",  "Rango esperado", "Fuera de rango"))
 
 ```
 
@@ -307,7 +355,35 @@ casos_ext %>%
   write_csv("predicciones_nuevos.csv", append = TRUE, col_names = FALSE)
 
 read_csv("predicciones_nuevos.csv") %>%
-  knitr::kable(., digits = 2, col.names = c("Fecha", "Casos Nuevos Observados", "Predicción", "Error"))
+  knitr::kable(., digits = 2, 
+               col.names = c("Fecha", "Casos Nuevos Observados", "Predicción", "Error"))
+
+
+# Tabla con rangos JK
+
+jk_model(n1_yesterday) -> jk_n1_yesterday
+
+casos_ext %>%
+  filter(t == (max_t-1)) %$% 
+  pred_jk(jk_n1_yesterday, t = t, "ci_low") -> nuevos_predicted_today_jk
+
+casos_ext %>%
+  filter(t == (max_t-1)) %$% 
+  pred_jk(jk_n1_yesterday, t = t, "ci_high") %>% 
+  c(nuevos_predicted_today_jk, .) -> nuevos_predicted_today_jk
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  transmute(Fecha = date, Observados = casos_nuevos) %>%
+  mutate("Rango esperado" = paste(round(nuevos_predicted_today_jk), collapse = "-"),
+         "Fuera de rango" = ifelse(Observados > nuevos_predicted_today_jk[1] | 
+                                     Observados < nuevos_predicted_today_jk[2], "Sí", "No")) %>%
+   write_csv("predicciones_nuevos_jk.csv", append = TRUE, col_names = FALSE)
+
+read_csv("predicciones_nuevos_jk.csv") %>%
+  knitr::kable(., digits = 2, align = "c", 
+               caption = "Intervalos de confianza JK, casos nuevos.",
+               col.names = c("Fecha", "Casos Nuevos Observados",  "Rango esperado", "Fuera de rango"))
 
 ```
 
