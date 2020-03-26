@@ -376,8 +376,8 @@ casos_ext %>%
   filter(t == (max_t-1)) %>%
   transmute(Fecha = date, Observados = casos_nuevos) %>%
   mutate("Rango esperado" = paste(round(nuevos_predicted_today_jk), collapse = "-"),
-         "Fuera de rango" = ifelse(Observados > nuevos_predicted_today_jk[1] | 
-                                     Observados < nuevos_predicted_today_jk[2], "Sí", "No")) %>%
+         "Fuera de rango" = ifelse(Observados < nuevos_predicted_today_jk[1] | 
+                                     Observados > nuevos_predicted_today_jk[2], "Sí", "No")) %>%
    write_csv("predicciones_nuevos_jk.csv", append = TRUE, col_names = FALSE)
 
 read_csv("predicciones_nuevos_jk.csv") %>%

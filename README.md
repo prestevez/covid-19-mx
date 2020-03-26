@@ -205,7 +205,7 @@ Intervalos de confianza JK, casos nuevos.
 |   Fecha    | Casos Nuevos Observados | Rango esperado | Fuera de rango |
 | :--------: | :---------------------: | :------------: | :------------: |
 | 2020-03-24 |           38            |     61-149     |       Sí       |
-| 2020-03-25 |           71            |     58-144     |       Sí       |
+| 2020-03-25 |           71            |     58-144     |       No       |
 
 # Discusión
 
