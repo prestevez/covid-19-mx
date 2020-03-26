@@ -152,4 +152,3 @@ casos %>%
   geom_point() +
   geom_line(aes(y = exp(predict(lm1)), colour = "LM")) +
   geom_line(aes(y = predict(m1, type = "response"), colour = "GLM"))
-  
