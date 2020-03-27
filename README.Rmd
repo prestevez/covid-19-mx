@@ -48,7 +48,7 @@ tibble(
 
 hoy <- max_date - 1
 
-pg <- "https://www.gob.mx/salud/documentos/informacion-internacional-y-nacional-sobre-nuevo-coronavirus-2019-ncov"
+pg <- "https://www.gob.mx/salud"
 
 casos_with_predictions %>%
   ggplot(aes(date, casos)) +
@@ -125,15 +125,16 @@ casos_with_predictions_jk %>%
   ggplot(aes(date, casos)) + 
   geom_point() +
   theme_fivethirtyeight() +
-  geom_line(aes(y = predicted, linetype = "GLM"), colour = "red") +
+  geom_line(aes(y = predicted, colour = modelo)) +
   #geom_line(aes(y = Jackknife, linetype = "Jackknife"), colour = "red") +
   geom_errorbar(aes(ymin = Jackknife_low,
                     ymax = Jackknife_high,
-                    linetype = "Jackknife"),
-                colour = "red") + 
+                    colour = modelo),
+                linetype = 2) + 
   xlab("Total de casos") + 
-  labs(title = paste0("México: Casos confirmados de Covid-19, ", hoy),
-       caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
+  labs(title = "México: Casos confirmados de Covid-19",
+       subtitle = paste0("Actualización: ", hoy, ". Intervalo de confianza Jackknife del 95%."),
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, "\ncon datos de ", pg)) +
   theme(legend.title = element_blank()) -> p1jk
 
 ggsave("casos_jk.png", p1jk, width = 7, height = 5)
@@ -227,7 +228,7 @@ casos_nuevos_with_predictions_jk %>%
   xlab("Total de casos nuevos") +
   labs(title = "México: Casos confirmados **nuevos** de Covid-19",
        subtitle = paste0("Actualización: ", hoy, ". Intervalo de confianza Jackknife del 95%."),
-       caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, "\ncon datos de ", pg)) +
   theme(legend.title = element_blank()) -> p1n
 
 ggsave("casos_nuevos.png", p1n, width = 7, height = 5)
