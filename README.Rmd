@@ -15,6 +15,7 @@ output:
 require(tidyverse)
 require(ggthemes)
 require(lubridate)
+require(magrittr)
 
 casos <- read_csv("confirmados.csv")
 
