@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-03-27 09:18:37 GMT
+Actualizado: 2020-03-28 01:05:19 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -38,20 +38,20 @@ Parámetros del modelo predictivo:
     ## 
     ## Deviance Residuals: 
     ##     Min       1Q   Median       3Q      Max  
-    ## -24.829  -17.005   -5.843   -0.122   38.982  
+    ## -25.499  -15.753   -6.511   -0.329   39.236  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 0.969300   0.161405   6.005 2.43e-06 ***
-    ## t           0.193949   0.006204  31.262  < 2e-16 ***
+    ## (Intercept) 1.010605   0.135682   7.448 5.18e-08 ***
+    ## t           0.192190   0.005027  38.232  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 283.874)
+    ## (Dispersion parameter for gaussian family taken to be 276.6228)
     ## 
-    ##     Null deviance: 751311.4  on 27  degrees of freedom
-    ## Residual deviance:   7380.5  on 26  degrees of freedom
-    ## AIC: 241.54
+    ##     Null deviance: 1099063.2  on 28  degrees of freedom
+    ## Residual deviance:    7468.8  on 27  degrees of freedom
+    ## AIC: 249.28
     ## 
     ## Number of Fisher Scoring iterations: 6
 
@@ -88,8 +88,8 @@ Parámetros Jackknife del modelo predictivo de casos:
     ## # A tibble: 2 x 4
     ##   var         Estimate ci_low ci_high
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 (Intercept)    0.966  0.873   1.01 
-    ## 2 t              0.194  0.192   0.198
+    ## 1 (Intercept)    1.01   0.944   1.04 
+    ## 2 t              0.192  0.191   0.194
 
 # Modelo de casos nuevos
 
@@ -122,39 +122,39 @@ Parámetros del modelo predictivo de casos nuevos:
     ## 
     ## Deviance Residuals: 
     ##     Min       1Q   Median       3Q      Max  
-    ## -4.1852  -1.6142  -0.8396   0.9050   3.3675  
+    ## -4.2914  -1.6798  -0.7475   0.8616   3.3470  
     ## 
     ## Coefficients:
     ##              Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept) -0.745500   0.204391  -3.647 0.000265 ***
-    ## t            0.192044   0.008552  22.457  < 2e-16 ***
+    ## (Intercept) -0.785224   0.192256  -4.084 4.42e-05 ***
+    ## t            0.194106   0.007718  25.151  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for poisson family taken to be 1)
     ## 
-    ##     Null deviance: 933.12  on 27  degrees of freedom
-    ## Residual deviance: 102.15  on 26  degrees of freedom
-    ## AIC: 198.13
+    ##     Null deviance: 1178.32  on 28  degrees of freedom
+    ## Residual deviance:  102.44  on 27  degrees of freedom
+    ## AIC: 205.15
     ## 
     ## Number of Fisher Scoring iterations: 5
 
     ## # A tibble: 2 x 4
     ##   var         Estimate ci_low ci_high
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 (Intercept)   -0.747 -0.884  -0.649
-    ## 2 t              0.192  0.188   0.198
+    ## 1 (Intercept)   -0.786 -0.930  -0.699
+    ## 2 t              0.194  0.191   0.199
 
 # Casos esperados mañana
 
 Mañana se espera que el **total acumulado de casos confirmados** de
-Covid-19 alcance **731**, con un intervalo de confianza Jackknife del
-95% entre **636** y **846**, si la tendencia observada hasta hoy se
+Covid-19 alcance **877**, con un intervalo de confianza Jackknife del
+95% entre **792** y **968**, si la tendencia observada hasta hoy se
 mantiene igual.
 
-Según el modelo de casos nuevos, mañana se esperan **124 casos
+Según el modelo de casos nuevos, mañana se esperan **154 casos
 confirmados nuevos**, con un intervalo de confianza Jackknife del 95%
-entre **97** y **165**, si la tendencia observada hasta hoy se mantiene
+entre **121** y **194**, si la tendencia observada hasta hoy se mantiene
 igual.
 
 Sin embargo, estas cifra muy probablemente estén equivocadas, pues el
@@ -184,6 +184,7 @@ Para el modelo del acumulado de casos:
 | 2020-03-24 |                      405 |     487.84 | \-82.84 |
 | 2020-03-25 |                      476 |     545.18 | \-69.18 |
 | 2020-03-26 |                      585 |     620.12 | \-35.12 |
+| 2020-03-27 |                      717 |     730.57 | \-13.57 |
 
 Intervalos de confianza JK
 
@@ -192,6 +193,7 @@ Intervalos de confianza JK
 | 2020-03-24 |           405            |    388-633     |       No       |
 | 2020-03-25 |           476            |    423-732     |       No       |
 | 2020-03-26 |           585            |    511-768     |       No       |
+| 2020-03-27 |           717            |    636-846     |       No       |
 
 Para el modelo de casos nuevos:
 
@@ -202,6 +204,7 @@ Para el modelo de casos nuevos:
 | 2020-03-24 |                      38 |      91.69 | \-53.69 |
 | 2020-03-25 |                      71 |      88.21 | \-17.21 |
 | 2020-03-26 |                     109 |      99.55 |    9.45 |
+| 2020-03-27 |                     132 |     124.43 |    7.57 |
 
 Intervalos de confianza JK, casos nuevos.
 
@@ -210,6 +213,7 @@ Intervalos de confianza JK, casos nuevos.
 | 2020-03-24 |           38            |     61-149     |       Sí       |
 | 2020-03-25 |           71            |     58-144     |       No       |
 | 2020-03-26 |           109           |     74-142     |       No       |
+| 2020-03-27 |           132           |     97-165     |       No       |
 
 # Discusión
 
@@ -218,7 +222,7 @@ confirmados de Covid-19 es consistente con ejercicios [realizados en
 otros países](https://doi.org/10.1016/S0140-6736\(20\)30627-9).
 
 La tendencia exponencial del modelo sugiere que **el número de casos
-confirmados se duplica cada 3.57 días**. Este ritmo es más rápido que
+confirmados se duplica cada 3.61 días**. Este ritmo es más rápido que
 [el observado a nivel
 global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
 pero es consistente con los ritmos de crecimiento observados durante las
