@@ -184,6 +184,8 @@ ggsave("muertes.png", p1_d, width = 7, height = 5)
 
 d1_jk <- jk_model(d1) 
 
+muertes_with_predictions
+
 muertes_with_predictions %>%
   mutate(Jackknife = pred_jk(d1_jk, t = t),
          Jackknife_low = pred_jk(d1_jk, t = t, "ci_low"),
