@@ -251,13 +251,150 @@ n1_jk
 
 ```
 
+# Modelo de acumulado de muertes y de muertes nuevas
+
+Utilizando la misma lógica que para el acumulado de casos, podemos modelar el acumulado de muertes y muertes nuevas para ver la tendencia de crecimiento en estas desde que se reportaron las primeras defunciones por covid-19. Cabe reiterar que estos modelos no son apropiados para capturar la dinámica real de las muertes causadas por la epidemia. Para ello se requieren modelos epidemiológicos. Estos modelos solo calculan las líneas de tendencia de las muertes totales y nuevas a la fecha, para estimar el ritmo de crecimiento. Se hacen extrapolaciones a un día para darse una idea de cuántas muertes totales y nuevas podrían verse mañana si las tendencias a la fecha se mantienen.
+
+```{r muertes-totales, echo=FALSE, cache=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+casos_ext %>%
+  filter(muertes > 0) %>%
+  glm(muertes ~ t,
+          data = .,
+          family = gaussian("log")) -> d1
+
+
+modelo_d <- paste0("Tendencia exponencial (",
+                 round((exp(d1[[1]][2])-1)*100),
+                 "% más muertes totales x día)")
+tibble(
+  date = max_date,
+  muertes = NA,
+  t = max_t,
+  predicted = predict(d1, newdata = data.frame(t = max_t), type = "response")
+) %>%
+  bind_rows(
+    mutate(filter(casos_ext, muertes > 0),
+           predicted = predict(d1, type = "response"))) %>%
+  arrange(date) -> muertes_with_predictions
+
+
+
+muertes_with_predictions %>%
+  ggplot(aes(date, muertes)) +
+  geom_point() +
+  theme_fivethirtyeight() +
+  geom_line(aes(y = predicted, colour = modelo_d)) +
+  xlab("Total de muertes") +
+  labs(title = paste0("México: Total de muertes por Covid-19, ", hoy),
+       subtitle = "Desde el día de la primera muerte reportada",
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, ", con datos de \n", pg)) +
+  theme(legend.title = element_blank()) -> p1_d
+
+ggsave("muertes.png", p1_d, width = 7, height = 5)
+
+d1_jk <- jk_model(d1) 
+
+
+
+muertes_with_predictions %>%
+  mutate(Jackknife = pred_jk(d1_jk, t = t),
+         Jackknife_low = pred_jk(d1_jk, t = t, "ci_low"),
+         Jackknife_high = pred_jk(d1_jk, t = t, "ci_high")) -> muertes_with_predictions_jk
+
+muertes_with_predictions_jk
+
+muertes_with_predictions_jk %>%
+  ggplot(aes(date, muertes)) +
+  geom_point() +
+  theme_fivethirtyeight() +
+  geom_line(aes(y = predicted, colour = modelo_d)) +
+  #geom_line(aes(y = Jackknife, linetype = "Jackknife"), colour = "red") +
+  geom_errorbar(aes(ymin = Jackknife_low,
+                    ymax = Jackknife_high,
+                    colour = modelo_d),
+                linetype = 2) +
+  xlab("Total de casos") +
+  labs(title = "México: Total de muertes por Covid-19",
+       subtitle = paste0("Actualización: ", hoy, ". Intervalo de confianza Jackknife del 95%."),
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, "\ncon datos de ", pg)) +
+  theme(legend.title = element_blank()) -> p1jk_d
+
+ggsave("muertes_jk.png", p1jk_d, width = 7, height = 5)
+
+jk_pred_d <- filter(muertes_with_predictions_jk, t == max_t)[,c(9,10)]
+
+casos_ext %>%
+  filter(muertes > 0) %>%
+  glm(muertes_nuevas ~ t,
+          data = .,
+          family = poisson("log")) -> dn1
+
+
+modelo_dn <- paste0("Tendencia Poisson (",
+                   round((exp(d1[[1]][2])-1)*100),
+                   "% más casos nuevos x día)")
+tibble(
+  date = max_date,
+  muertes_nuevas = NA,
+  t = max_t,
+  predicted = predict(dn1, newdata = data.frame(t = max_t), type = "response")
+) %>%
+  bind_rows(
+    mutate(filter(casos_ext, muertes > 0),
+           predicted = predict(dn1, type = "response"))) %>%
+  arrange(date) -> muertes_nuevos_with_predictions
+
+
+jk_model(dn1) -> dn1_jk
+
+muertes_nuevos_with_predictions %>%
+  mutate(Jackknife = pred_jk(dn1_jk, t = t),
+         Jackknife_low = pred_jk(dn1_jk, t = t, "ci_low"),
+         Jackknife_high = pred_jk(dn1_jk, t = t, "ci_high")) -> muertes_nuevos_with_predictions_jk
+
+
+
+muertes_nuevos_with_predictions_jk %>%
+  ggplot(aes(date, muertes_nuevas)) +
+  geom_point() +
+  theme_fivethirtyeight() +
+  geom_line(aes(y = predicted, colour = modelo_dn)) +
+  geom_errorbar(aes(ymin = Jackknife_low,
+                    ymax = Jackknife_high,
+                    colour = modelo_dn),
+                linetype = 2) +
+  xlab("Total de casos nuevos") +
+  labs(title = "México: Muertes **nuevas** de Covid-19",
+       subtitle = paste0("Actualización: ", hoy, ". Intervalo de confianza Jackknife del 95%."),
+       caption = paste0("CC-BY @prestevez. Corte a ", hoy, "\ncon datos de ", pg)) +
+  theme(legend.title = element_blank()) -> p1n_d
+
+ggsave("muertes_nuevos.png", p1n_d, width = 7, height = 5)
+
+jk_pred_muertes_nuevas <- filter(muertes_nuevos_with_predictions_jk, t == max_t)[,c(9,10)]
+
+```
+
+
+![](muertes.png)
+
+
+![](muertes_jk.png)
+
+![](muertes_nuevos.png)
+
+
 # Casos esperados mañana
 
 Mañana se espera que el **total acumulado de casos confirmados** de Covid-19 alcance **`r round(filter(casos_with_predictions, t == max_t)$predicted)`**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred[[1]])`** y **`r round(jk_pred[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
 
 Según el modelo de casos nuevos, mañana se esperan **`r round(filter(casos_nuevos_with_predictions, t == max_t)$predicted)` casos confirmados nuevos**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred_nuevos[[1]])`** y **`r round(jk_pred_nuevos[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
 
-Sin embargo, estas cifra muy probablemente estén equivocadas, pues el modelo usado es extremadamente simple. El objetivo es tener una vaga noción de la cifra esperada.
+Según el modelo de muertes acumuladas, mañana se espera que el total alcance alrededor de **`r round(filter(muertes_with_predictions, t == max_t)$predicted)` muertes**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred_d[[1]])`** y **`r round(jk_pred_d[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
+
+Según el modelo de muertes nuevas, mañana se esperam alrededor de **`r round(filter(muertes_nuevos_with_predictions, t == max_t)$predicted)` muertes nuevas**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred_muertes_nuevas[[1]])`** y **`r round(jk_pred_muertes_nuevas[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
+
+Sin embargo, estas cifra muy probablemente estén equivocadas, pues los modelos usados son extremadamente simples. El objetivo es tener una vaga noción de las cifras esperadas.
 
 
 # Precisión predictiva
@@ -389,27 +526,138 @@ read_csv("predicciones_nuevos_jk.csv") %>%
 
 ```
 
+Para las muertes por covid-19:
+
+```{r accuracy-muertes, message=FALSE, echo = FALSE, warning=FALSE}
+
+casos_ext %>%
+  filter(!t == (max_t-1)) %>%
+  filter(muertes > 0) %>%
+  glm(muertes ~ t,
+          data = .,
+          family = gaussian("log")) -> d1_yesterday
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  predict(d1_yesterday, newdata = ., type = "response") -> muertes_predicted_today
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  transmute(Fecha = date, Observados = muertes) %>%
+  mutate(Predicción = muertes_predicted_today,
+         Error = Observados-Predicción) %>%
+  write_csv("predicciones_muertes.csv", append = TRUE, col_names = FALSE)
+
+read_csv("predicciones_muertes.csv") %>%
+  knitr::kable(., digits = 2, 
+              caption = "Predcciones: acumulado de muertes por covid-19.",
+               col.names = c("Fecha", "Muertes Totales Observadas", "Predicción", "Error"))
+
+
+# Tabla con rangos JK
+
+jk_model(d1_yesterday) -> jk_d1_yesterday
+
+casos_ext %>%
+  filter(t == (max_t-1)) %$% 
+  pred_jk(jk_d1_yesterday, t = t, "ci_low") -> muertes_predicted_today_jk
+
+casos_ext %>%
+  filter(t == (max_t-1)) %$% 
+  pred_jk(jk_d1_yesterday, t = t, "ci_high") %>% 
+  c(muertes_predicted_today_jk, .) -> muertes_predicted_today_jk
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  transmute(Fecha = date, Observados = muertes) %>%
+  mutate("Rango esperado" = paste(round(muertes_predicted_today_jk), collapse = "-"),
+         "Fuera de rango" = ifelse(Observados < muertes_predicted_today_jk[1] | 
+                                     Observados > muertes_predicted_today_jk[2], "Sí", "No")) %>%
+   write_csv("predicciones_muertes_jk.csv", append = TRUE, col_names = FALSE)
+
+read_csv("predicciones_muertes_jk.csv") %>%
+  knitr::kable(., digits = 2, align = "c", 
+               caption = "Intervalos de confianza JK, acumulado de muertes.",
+               col.names = c("Fecha", "Muertes Totales Observadas",  "Rango esperado", "Fuera de rango"))
+
+```
+
+Para las muertes nuevas por covid-19:
+
+```{r accuracy-muertes-nuevas, message=FALSE, echo = FALSE, warning=FALSE}
+
+casos_ext %>%
+  filter(!t == (max_t-1)) %>%
+  filter(muertes > 0) %>%
+  glm(muertes_nuevas ~ t,
+          data = .,
+          family = poisson("log")) -> dn1_yesterday
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  predict(dn1_yesterday, newdata = ., type = "response") -> muertes_nuevas_predicted_today
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  transmute(Fecha = date, Observados = muertes_nuevas) %>%
+  mutate(Predicción = muertes_nuevas_predicted_today,
+         Error = Observados-Predicción) %>%
+  write_csv("predicciones_muertes_nuevas.csv", append = TRUE, col_names = FALSE)
+
+read_csv("predicciones_muertes_nuevas.csv") %>%
+  knitr::kable(., digits = 2, 
+              caption = "Predcciones: Muertes nuuevas por covid-19.",
+               col.names = c("Fecha", "Muertes Nuevas Observadas", "Predicción", "Error"))
+
+
+# Tabla con rangos JK
+
+jk_model(dn1_yesterday) -> jk_dn1_yesterday
+
+casos_ext %>%
+  filter(t == (max_t-1)) %$% 
+  pred_jk(jk_dn1_yesterday, t = t, "ci_low") -> muertes_nuevas_predicted_today_jk
+
+casos_ext %>%
+  filter(t == (max_t-1)) %$% 
+  pred_jk(jk_dn1_yesterday, t = t, "ci_high") %>% 
+  c(muertes_nuevas_predicted_today_jk, .) -> muertes_nuevas_predicted_today_jk
+
+casos_ext %>%
+  filter(t == (max_t-1)) %>%
+  transmute(Fecha = date, Observados = muertes_nuevas) %>%
+  mutate("Rango esperado" = paste(round(muertes_nuevas_predicted_today_jk), collapse = "-"),
+         "Fuera de rango" = ifelse(Observados < muertes_nuevas_predicted_today_jk[1] | 
+                                     Observados > muertes_nuevas_predicted_today_jk[2], "Sí", "No")) %>%
+   write_csv("predicciones_muertes_nuevas_jk.csv", append = TRUE, col_names = FALSE)
+
+read_csv("predicciones_muertes_nuevas_jk.csv") %>%
+  knitr::kable(., digits = 2, align = "c", 
+               caption = "Intervalos de confianza JK, muertes nuevas.",
+               col.names = c("Fecha", "Muertes Nuevas Observadas",  "Rango esperado", "Fuera de rango"))
+
+```
 
 # Discusión
 
-El uso de modelos exponenciales para predecir el número de casos confirmados de Covid-19 es consistente con ejercicios [realizados en otros países](https://doi.org/10.1016/S0140-6736(20)30627-9).
-
 La tendencia exponencial del modelo sugiere que **el número de casos confirmados se duplica cada `r round(log(2)/(coef(m1)[2]), 2)` días**. Este ritmo es más rápido que [el observado a nivel global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double), pero es consistente con los ritmos de crecimiento observados durante las primeras semanas de la epidemia en otros países.
 
-Cabe recalcar que el ritmo de aumento en los casos confirmados **no es equivalente al ritmo de crecimiento de casos totales** de Covid-19, pues como se mencionó, los casos confirmados dependen tanto del incremento en casos totales como de la cantidad de pruebas realizadas. Es probable que conforme aumente la cantidad de pruebas realizadas, el ritmo de crecimiento de los casos confirmados se haga más lento.
+Cabe recalcar que el ritmo de aumento en los casos confirmados **no es equivalente al ritmo de crecimiento de casos totales** de Covid-19, pues como se mencionó, los casos confirmados dependen tanto del incremento en casos totales como de la cantidad de pruebas realizadas. Es probable que conforme aumente la cantidad de pruebas realizadas, el ritmo de crecimiento de los casos confirmados se haga más lento. 
 
-El modelo presentado no considera el efecto que puedan tener las medidas de mitigación de la epidemia en la cantidad de casos confirmados en el futuro. Como se ha mostrado en la [evidencia](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(20)30144-4/fulltext) [académica](https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(20)30074-7/fulltext), y se ilustra magistralmente en [el artículo de Harry Stevens en el Washington Post](https://www.washingtonpost.com/graphics/2020/world/corona-simulator-spanish/), las medidas de contención y mitigación como aislamiento de pacientes, cuarentenas a ciudades y regiones, y especialmente el distanciamiento social, han demostrado ser efectivas para alentar el ritmo de crecimiento de la epidemia.
+De la misma forma, los modelos y predicciones de muertes relacionadas a covid-19 sufren también de errores de medición: es posible que los datos reportados no logren capturar el total de muertes por covid-19. Por tanto las tendencias no representan el fenómeno real.
+
+Los modelos presentados no consideran el efecto que puedan tener las medidas de mitigación de la epidemia en la cantidad de casos confirmados o muertes en el futuro. Como se ha mostrado en la [evidencia](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099(20)30144-4/fulltext) [académica](https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(20)30074-7/fulltext), y se ilustra magistralmente en [el artículo de Harry Stevens en el Washington Post](https://www.washingtonpost.com/graphics/2020/world/corona-simulator-spanish/), las medidas de contención y mitigación como aislamiento de pacientes, cuarentenas a ciudades y regiones, y especialmente el distanciamiento social, han demostrado ser efectivas para alentar el ritmo de crecimiento de la epidemia.
 
 **En la medida que dichas medidas se adopten con vigor en México, se esperaría que el crecimiento de casos confirmados de Covid-19 en el país sea más lento.**
 
 
 # Aclaración
 
-El modelo presentado es **un modelo estadístico básico** que no considera supuestos epidemiológicos o médicos relevantes para predecir con mayor precisión cómo evolucionará la epidemia de Covid-19 en el país. La información es de carácter informativo solamente.
+Los modelo presentados son **modelos estadísticos básicos** que no consideran supuestos epidemiológicos o médicos relevantes para predecir con mayor precisión cómo evolucionará la epidemia de Covid-19 en el país. La información es de carácter informativo solamente.
 
 [Modelar epidemias de forma precisa es complejo y difícil](https://twitter.com/danitte/status/1240330754460008448), aun más en el caso de una enfermedad nueva como la Covid-19. Por tanto, reitero que mi objetivo no es modelar cuál va a ser el comportamiento de largo alcance de la epidemia.
 
-Mi objetivo es mucho más modesto: solo se busca dar una idea general de cuántos casos confirmados de Covid-19 podrían reportarse mañana según la tendencia observada hasta el presente, reconociendo que dicha predicción está sujeta a errores de medición y modelado.
+Mi objetivo es mucho más modesto: solo se busca dar una idea general de cuántos casos confirmados o muertes de Covid-19 podrían reportarse mañana según la tendencia observada hasta el presente, reconociendo que dicha predicción está sujeta a errores de medición y modelado.
 
 
 # Reproducir
@@ -425,6 +673,7 @@ rmarkdown::render("README.Rmd")
 
  - **19-03-2020**: La extrapolación se redujo a 1 día dados los errores de predicción del modelo. Se expandió la sección de aclaración. Se corrigió el cálculo del tiempo en el que se espera que se dupliquen el total de casos confirmados. El cálculo anterior estaba sesgado hacia abajo (el tiempo calculado era menor, el cálculo anterior era 2/exp(Beta) = t, debe ser log(2)/Beta = t).
  - **23-03-2020**: Se agregó un modelo Poisson de casos nuevos. Se agregaron Jackknife estimates.
+ - **03-02-2020**: Se agreagron gráficas y predicciones para muertes totales y nuevas.
 
 
 # Licencia
