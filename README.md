@@ -1,7 +1,7 @@
 Evolución de Covid-19 en México
 ================
 [Patricio R Estevez-Soto](https://twitter.com/prestevez).
-Actualizado: 2020-04-03 11:36:56 GMT
+Actualizado: 2020-04-04 11:12:10 GMT
 
 # Crecimiento de casos confirmados de Covid-19 en México
 
@@ -38,22 +38,22 @@ Parámetros del modelo predictivo:
     ## 
     ## Deviance Residuals: 
     ##      Min        1Q    Median        3Q       Max  
-    ## -115.213   -43.188   -18.737    -6.878   104.414  
+    ## -116.181   -51.399   -23.333    -6.899   117.364  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept) 2.110469   0.140600   15.01 2.64e-16 ***
-    ## t           0.150941   0.004349   34.71  < 2e-16 ***
+    ## (Intercept)   2.2929     0.1394   16.45   <2e-16 ***
+    ## t             0.1446     0.0042   34.42   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## (Dispersion parameter for gaussian family taken to be 2081.536)
+    ## (Dispersion parameter for gaussian family taken to be 2706.522)
     ## 
-    ##     Null deviance: 6730820  on 34  degrees of freedom
-    ## Residual deviance:   68688  on 33  degrees of freedom
-    ## AIC: 370.7
+    ##     Null deviance: 8563432  on 35  degrees of freedom
+    ## Residual deviance:   92022  on 34  degrees of freedom
+    ## AIC: 390.63
     ## 
-    ## Number of Fisher Scoring iterations: 6
+    ## Number of Fisher Scoring iterations: 7
 
 # Estimación de errores Jackknife
 
@@ -88,8 +88,8 @@ Parámetros Jackknife del modelo predictivo de casos:
     ## # A tibble: 2 x 4
     ##   var         Estimate ci_low ci_high
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 (Intercept)    2.11   2.04    2.14 
-    ## 2 t              0.151  0.150   0.153
+    ## 1 (Intercept)    2.29   2.22    2.32 
+    ## 2 t              0.145  0.144   0.147
 
 # Modelo de casos nuevos
 
@@ -121,29 +121,29 @@ Parámetros del modelo predictivo de casos nuevos:
     ## glm(formula = casos_nuevos ~ t, family = poisson("log"), data = casos_ext)
     ## 
     ## Deviance Residuals: 
-    ##     Min       1Q   Median       3Q      Max  
-    ## -5.2278  -2.4674  -0.9025   1.1130   4.6103  
+    ##    Min      1Q  Median      3Q     Max  
+    ## -4.470  -2.434  -1.025   1.008   4.899  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept) 0.330021   0.118418   2.787  0.00532 ** 
-    ## t           0.142165   0.004028  35.296  < 2e-16 ***
+    ## (Intercept) 0.439851   0.111376   3.949 7.84e-05 ***
+    ## t           0.137380   0.003688  37.248  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for poisson family taken to be 1)
     ## 
-    ##     Null deviance: 2172.45  on 34  degrees of freedom
-    ## Residual deviance:  223.79  on 33  degrees of freedom
-    ## AIC: 366.77
+    ##     Null deviance: 2395.90  on 35  degrees of freedom
+    ## Residual deviance:  234.23  on 34  degrees of freedom
+    ## AIC: 384.23
     ## 
     ## Number of Fisher Scoring iterations: 5
 
     ## # A tibble: 2 x 4
     ##   var         Estimate ci_low ci_high
     ##   <chr>          <dbl>  <dbl>   <dbl>
-    ## 1 (Intercept)    0.328  0.226   0.391
-    ## 2 t              0.142  0.140   0.146
+    ## 1 (Intercept)    0.438  0.329   0.498
+    ## 2 t              0.137  0.136   0.142
 
 # Modelo de acumulado de muertes y de muertes nuevas
 
@@ -158,25 +158,6 @@ estimar el ritmo de crecimiento. Se hacen extrapolaciones a un día para
 darse una idea de cuántas muertes totales y nuevas podrían verse mañana
 si las tendencias a la fecha se mantienen.
 
-    ## # A tibble: 15 x 10
-    ##    date       muertes     t predicted casos casos_nuevos muertes_nuevas Jackknife Jackknife_low Jackknife_high
-    ##    <date>       <dbl> <dbl>     <dbl> <dbl>        <dbl>          <dbl>     <dbl>         <dbl>          <dbl>
-    ##  1 2020-03-20       2    22      2.17   203           39              2      2.18          1.70           2.68
-    ##  2 2020-03-21       2    23      2.77   251           48              0      2.77          2.16           3.43
-    ##  3 2020-03-22       2    24      3.52   316           65              0      3.52          2.73           4.38
-    ##  4 2020-03-23       4    25      4.47   367           51              2      4.47          3.46           5.59
-    ##  5 2020-03-24       5    26      5.69   405           38              1      5.69          4.39           7.15
-    ##  6 2020-03-25       6    27      7.24   476           71              1      7.24          5.57           9.14
-    ##  7 2020-03-26       8    28      9.20   585          109              2      9.20          7.06          11.7 
-    ##  8 2020-03-27      12    29     11.7    717          132              4     11.7           8.95          14.9 
-    ##  9 2020-03-28      16    30     14.9    848          131              4     14.9          11.3           19.1 
-    ## 10 2020-03-29      20    31     18.9    993          145              4     18.9          14.4           24.4 
-    ## 11 2020-03-30      28    32     24.1   1094          101              8     24.1          18.2           31.1 
-    ## 12 2020-03-31      29    33     30.6   1215          121              1     30.6          23.1           39.8 
-    ## 13 2020-04-01      37    34     38.9   1378          163              8     38.9          29.3           50.9 
-    ## 14 2020-04-02      50    35     49.5   1510          132             13     49.5          37.1           65.0 
-    ## 15 2020-04-03      NA    36     63.0     NA           NA             NA     63.0          47.1           83.1
-
 ![](muertes.png)
 
 ![](muertes_jk.png)
@@ -186,23 +167,23 @@ si las tendencias a la fecha se mantienen.
 # Casos esperados mañana
 
 Mañana se espera que el **total acumulado de casos confirmados** de
-Covid-19 alcance **1890**, con un intervalo de confianza Jackknife del
-95% entre **1707** y **2103**, si la tendencia observada hasta hoy se
+Covid-19 alcance **2085**, con un intervalo de confianza Jackknife del
+95% entre **1892** y **2300**, si la tendencia observada hasta hoy se
 mantiene igual.
 
-Según el modelo de casos nuevos, mañana se esperan **232 casos
+Según el modelo de casos nuevos, mañana se esperan **250 casos
 confirmados nuevos**, con un intervalo de confianza Jackknife del 95%
-entre **195** y **281**, si la tendencia observada hasta hoy se mantiene
+entre **209** y **318**, si la tendencia observada hasta hoy se mantiene
 igual.
 
 Según el modelo de muertes acumuladas, mañana se espera que el total
-alcance alrededor de **63 muertes**, con un intervalo de confianza
-Jackknife del 95% entre **47** y **83**, si la tendencia observada hasta
-hoy se mantiene igual.
+alcance alrededor de **77 muertes**, con un intervalo de confianza
+Jackknife del 95% entre **58** y **105**, si la tendencia observada
+hasta hoy se mantiene igual.
 
-Según el modelo de muertes nuevas, mañana se esperam alrededor de **13
+Según el modelo de muertes nuevas, mañana se esperan alrededor de **14
 muertes nuevas**, con un intervalo de confianza Jackknife del 95% entre
-**2** y **68**, si la tendencia observada hasta hoy se mantiene igual.
+**4** y **46**, si la tendencia observada hasta hoy se mantiene igual.
 
 Sin embargo, estas cifra muy probablemente estén equivocadas, pues los
 modelos usados son extremadamente simples. El objetivo es tener una vaga
@@ -238,6 +219,7 @@ Para el modelo del acumulado de casos:
 | 2020-03-31 |                     1215 |    1380.92 | \-165.92 |
 | 2020-04-01 |                     1378 |    1537.02 | \-159.02 |
 | 2020-04-02 |                     1510 |    1716.08 | \-206.08 |
+| 2020-04-03 |                     1688 |    1890.01 | \-202.01 |
 
 Intervalos de confianza JK
 
@@ -253,6 +235,7 @@ Intervalos de confianza JK
 | 2020-03-31 |           1215           |   1230-1571    |       Sí       |
 | 2020-04-01 |           1378           |   1383-1724    |       Sí       |
 | 2020-04-02 |           1510           |   1558-1903    |       Sí       |
+| 2020-04-03 |           1688           |   1707-2103    |       Sí       |
 
 Para el modelo de casos nuevos:
 
@@ -270,6 +253,7 @@ Para el modelo de casos nuevos:
 | 2020-03-31 |                     121 |     200.59 | \-79.59 |
 | 2020-04-01 |                     163 |     207.60 | \-44.60 |
 | 2020-04-02 |                     132 |     227.10 | \-95.10 |
+| 2020-04-03 |                     178 |     232.28 | \-54.28 |
 
 Intervalos de confianza JK, casos nuevos.
 
@@ -285,6 +269,7 @@ Intervalos de confianza JK, casos nuevos.
 | 2020-03-31 |           121           |    157-265     |       Sí       |
 | 2020-04-01 |           163           |    164-290     |       Sí       |
 | 2020-04-02 |           132           |    188-291     |       Sí       |
+| 2020-04-03 |           178           |    195-281     |       Sí       |
 
 Para las muertes por covid-19:
 
@@ -292,6 +277,7 @@ Para las muertes por covid-19:
 | :--------- | -------------------------: | ---------: | -----: |
 | 2020-04-01 |                         37 |      40.87 | \-3.87 |
 | 2020-04-02 |                         50 |      48.76 |   1.24 |
+| 2020-04-03 |                         60 |      62.98 | \-2.98 |
 
 Predcciones: acumulado de muertes por covid-19.
 
@@ -299,15 +285,17 @@ Predcciones: acumulado de muertes por covid-19.
 | :--------: | :------------------------: | :------------: | :------------: |
 | 2020-04-01 |             37             |     13-138     |       No       |
 | 2020-04-02 |             50             |     31-80      |       No       |
+| 2020-04-03 |             60             |     47-83      |       No       |
 
 Intervalos de confianza JK, acumulado de muertes.
 
 Para las muertes nuevas por covid-19:
 
-| Fecha      | Muertes Nuevas Observadas | Predicción | Error |
-| :--------- | ------------------------: | ---------: | ----: |
-| 2020-04-01 |                         8 |       6.13 |  1.87 |
-| 2020-04-02 |                        13 |       8.30 |  4.70 |
+| Fecha      | Muertes Nuevas Observadas | Predicción |  Error |
+| :--------- | ------------------------: | ---------: | -----: |
+| 2020-04-01 |                         8 |       6.13 |   1.87 |
+| 2020-04-02 |                        13 |       8.30 |   4.70 |
+| 2020-04-03 |                        10 |      12.74 | \-2.74 |
 
 Predcciones: Muertes nuuevas por covid-19.
 
@@ -315,13 +303,14 @@ Predcciones: Muertes nuuevas por covid-19.
 | :--------: | :-----------------------: | :------------: | :------------: |
 | 2020-04-01 |             8             |     0-229      |       No       |
 | 2020-04-02 |            13             |      1-55      |       No       |
+| 2020-04-03 |            10             |      2-68      |       No       |
 
 Intervalos de confianza JK, muertes nuevas.
 
 # Discusión
 
 La tendencia exponencial del modelo sugiere que **el número de casos
-confirmados se duplica cada 4.59 días**. Este ritmo es más rápido que
+confirmados se duplica cada 4.79 días**. Este ritmo es más rápido que
 [el observado a nivel
 global](https://ourworldindata.org/coronavirus#growth-of-cases-how-long-did-it-take-for-the-number-of-confirmed-cases-to-double),
 pero es consistente con los ritmos de crecimiento observados durante las

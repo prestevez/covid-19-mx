@@ -301,8 +301,6 @@ muertes_with_predictions %>%
          Jackknife_low = pred_jk(d1_jk, t = t, "ci_low"),
          Jackknife_high = pred_jk(d1_jk, t = t, "ci_high")) -> muertes_with_predictions_jk
 
-muertes_with_predictions_jk
-
 muertes_with_predictions_jk %>%
   ggplot(aes(date, muertes)) +
   geom_point() +
@@ -392,7 +390,7 @@ Según el modelo de casos nuevos, mañana se esperan **`r round(filter(casos_nue
 
 Según el modelo de muertes acumuladas, mañana se espera que el total alcance alrededor de **`r round(filter(muertes_with_predictions, t == max_t)$predicted)` muertes**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred_d[[1]])`** y **`r round(jk_pred_d[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
 
-Según el modelo de muertes nuevas, mañana se esperam alrededor de **`r round(filter(muertes_nuevos_with_predictions, t == max_t)$predicted)` muertes nuevas**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred_muertes_nuevas[[1]])`** y **`r round(jk_pred_muertes_nuevas[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
+Según el modelo de muertes nuevas, mañana se esperan alrededor de **`r round(filter(muertes_nuevos_with_predictions, t == max_t)$predicted)` muertes nuevas**, con un intervalo de confianza Jackknife del 95% entre **`r round(jk_pred_muertes_nuevas[[1]])`** y **`r round(jk_pred_muertes_nuevas[[2]])`**, si la tendencia observada hasta hoy se mantiene igual. 
 
 Sin embargo, estas cifra muy probablemente estén equivocadas, pues los modelos usados son extremadamente simples. El objetivo es tener una vaga noción de las cifras esperadas.
 
