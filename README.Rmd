@@ -8,6 +8,17 @@ output:
     keep_html: FALSE
 ---
 
+**Este proyecto no está siendo actualizado**
+
+Visita esta página [para más información](https://www.prestevez.com/es/blog/por-que-deje-de-modelar-los-datos-de-covid-19/).
+
+Si te interesa dar seguimiento a otros proyectos de seguimiento del covid-19 en México te recomiendo los siguientes sitios:
+
+- [Covidatos.mx](http://covidatos.mx/)
+- [Mexicovid19](https://mexicovid19.github.io/Mexico/)
+- [covid19enmexico.com](https://covid19enmexico.com/)
+
+
 # Crecimiento de casos confirmados de Covid-19 en México
 
 ```{r modelo, echo=FALSE, cache=FALSE, include=TRUE, message=FALSE, warning=FALSE}
@@ -671,7 +682,8 @@ rmarkdown::render("README.Rmd")
 
  - **19-03-2020**: La extrapolación se redujo a 1 día dados los errores de predicción del modelo. Se expandió la sección de aclaración. Se corrigió el cálculo del tiempo en el que se espera que se dupliquen el total de casos confirmados. El cálculo anterior estaba sesgado hacia abajo (el tiempo calculado era menor, el cálculo anterior era 2/exp(Beta) = t, debe ser log(2)/Beta = t).
  - **23-03-2020**: Se agregó un modelo Poisson de casos nuevos. Se agregaron Jackknife estimates.
- - **03-02-2020**: Se agreagron gráficas y predicciones para muertes totales y nuevas.
+ - **03-04-2020**: Se agregaron gráficas y predicciones para muertes totales y nuevas.
+ - **05-04-2020**: **Se dejó de actualizar el proyecto.**
 
 
 # Licencia

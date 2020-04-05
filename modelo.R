@@ -274,3 +274,89 @@ muertes_nuevos_with_predictions_jk %>%
 ggsave("muertes_nuevos.png", p1n_d, width = 7, height = 5)
 
 jk_pred_muertes_nuevas <- filter(muertes_nuevos_with_predictions_jk, t == max_t)[,c(9,10)]
+
+casos_ext %>%
+  filter(date > "2020-03-25") %$% mean(casos_nuevos)
+
+pred_start <- ymd("2020-03-17")
+pred_end <- ymd("2020-04-03")
+
+predicted_days <- seq(pred_start, pred_end, 1)
+
+casos_ext %>%
+  ggplot(aes(date, casos)) +
+  geom_point()
+
+c1 <- glm(casos ~ t,
+          data = casos_ext,
+          family = gaussian("log"))
+
+lapply(1:length(predicted_days), function(x){
+  update(c1, data = filter(casos_ext, date <= predicted_days[x]))
+}) -> models_per_day
+
+## get trend per prediction
+
+sapply(models_per_day, function(x) (exp(coef(x)[[2]]) - 1) * 100) -> growth_rates
+
+# Duplication times
+
+dup <- function(model, frac = 2){
+  log(frac)/(coef(model)[2])
+}
+
+sapply(models_per_day, dup) -> duplication_times
+
+# predictions using all models
+sapply(models_per_day, function(x){
+  predict(x, newdata = casos_ext, type = "response")
+}) -> predictions_per_day
+
+predictions_per_day <- data.frame(predictions_per_day)
+
+names(predictions_per_day) <- predicted_days
+
+casos %>%
+  bind_cols(predictions_per_day) %>%
+  pivot_longer(-c(1:4), names_to = "pred_date", values_to = "prediction") -> casos_preds
+
+casos_preds %>%
+  ggplot(aes(date, casos)) +
+  geom_point() +
+  geom_line(aes(y = prediction, colour = pred_date)) +
+  theme_fivethirtyeight() +
+  theme(legend.position = "none")
+
+tibble(date = predicted_days,
+       ritmo = growth_rates) %>%
+  ggplot(aes(date, ritmo/100)) + 
+  geom_point() + 
+  geom_line() +
+  theme_fivethirtyeight() +
+  scale_y_continuous(labels = scales::percent)
+
+tibble(date = predicted_days,
+       dupi = duplication_times) %>%
+  ggplot(aes(date, dupi)) + 
+  geom_point() + 
+  geom_line() +
+  theme_fivethirtyeight()
+
+## Sigmoid
+
+logit <- function(t) 1/(1 + exp(-t))
+
+probs <- seq(0.001,0.999, .001)
+
+
+tibble(y = probs,
+       x = inv_logit(probs)) %>%
+  ggplot(aes(x,y)) + 
+  geom_line() +
+  theme_bw() +
+  theme(axis.text = element_blank()) +
+  xlab("") +
+  ylab("") +
+  ggtitle("Curva sigmoidal") -> sigmoid
+
+ggsave(filename = "sigmoid.png", sigmoid, width = 7, height = 5)  
