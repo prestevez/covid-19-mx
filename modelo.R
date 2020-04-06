@@ -279,7 +279,7 @@ casos_ext %>%
   filter(date > "2020-03-25") %$% mean(casos_nuevos)
 
 pred_start <- ymd("2020-03-17")
-pred_end <- ymd("2020-04-03")
+pred_end <- ymd("2020-04-04")
 
 predicted_days <- seq(pred_start, pred_end, 1)
 
@@ -325,7 +325,16 @@ casos_preds %>%
   geom_point() +
   geom_line(aes(y = prediction, colour = pred_date)) +
   theme_fivethirtyeight() +
-  theme(legend.position = "none")
+  xlab("Fecha") +
+  ylab("Casos confirmados de covid-19") +
+  scale_y_continuous(breaks = seq(0, 30000, 5000)) +
+  guides(colour = guide_legend(title = "Tendencia \npromedio al")) +
+  labs(title = "México: Casos confirmados de Covid-19, al 4/04/20.",
+       caption = "CC-BY @prestevez. Github: prestevez/covid-19-mx") -> esperados_plot
+
+ggsave("covid-19-mx-prediction-models.png", esperados_plot, width = 7, height = 7)
+
+predictions_per_day
 
 tibble(date = predicted_days,
        ritmo = growth_rates) %>%
@@ -333,7 +342,15 @@ tibble(date = predicted_days,
   geom_point() + 
   geom_line() +
   theme_fivethirtyeight() +
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent) +
+  xlab("Fecha") +
+  ylab("Tasa de crecimiento") +
+  labs(title = "México: Tasas de crecimiento promedio de Covid-19",
+       subtitle = "Casos confirmados. Del 17 de marzo al 4 de abril.",
+       caption = "CC-BY @prestevez. Github: prestevez/covid-19-mx") +
+  scale_x_date(breaks = seq(pred_start, pred_end, 3)) -> growth_plot
+   
+ggsave("covid-19-mx-growth-plot.png", growth_plot, width = 7, height = 5)
 
 tibble(date = predicted_days,
        dupi = duplication_times) %>%
@@ -342,21 +359,4 @@ tibble(date = predicted_days,
   geom_line() +
   theme_fivethirtyeight()
 
-## Sigmoid
-
-logit <- function(t) 1/(1 + exp(-t))
-
-probs <- seq(0.001,0.999, .001)
-
-
-tibble(y = probs,
-       x = inv_logit(probs)) %>%
-  ggplot(aes(x,y)) + 
-  geom_line() +
-  theme_bw() +
-  theme(axis.text = element_blank()) +
-  xlab("") +
-  ylab("") +
-  ggtitle("Curva sigmoidal") -> sigmoid
-
-ggsave(filename = "sigmoid.png", sigmoid, width = 7, height = 5)  
+pred_end
